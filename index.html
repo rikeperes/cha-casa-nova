@@ -24,14 +24,12 @@ body {
   border-radius: 12px;
 }
 
-/* Container */
 .container {
   display: grid;
-  grid-template-columns: repeat(2, 260px);
-  gap: 40px 80px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px 40px; /* espaçamento entre itens */
   justify-content: center;
-  padding: 40px 0;
-  transform: translateX(-20px); /* move levemente para esquerda */
+  padding: 40px 20px;
 }
 
 /* Item box */
@@ -306,4 +304,5 @@ function confirmarReserva() {
 </script>
 
 </body>
+
 </html>
