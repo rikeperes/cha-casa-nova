@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista do Chá de Casa Nova</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #c0c0c0;
+  text-align: center;
+}
+
+/* Banner */
+.banner {
+  padding: 25px 0;
+}
+
+.banner img {
+  max-width: 40%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Container */
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 260px);
+  gap: 40px 80px;
+  justify-content: center;
+  padding: 40px 0;
+  transform: translateX(-20px); /* move levemente para esquerda */
+}
+
+/* Item box */
+.item-box {
+  background: #ffffff;
+  width: 260px;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.item-box:hover {
+  transform: translateY(-5px);
+}
+
+.item-box img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-box h3 {
+  margin: 15px 0;
+  font-size: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+button {
+  width: 100%;
+  background: linear-gradient(45deg, #ff4d6d, #ff758f);
+  border: none;
+  color: white;
+  padding: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  border-radius: 8px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* MODAL NOME */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-box {
+  background: white;
+  padding: 30px;
+  width: 320px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  text-align: center;
+  animation: aparecer 0.25s ease;
+}
+
+.confirm-box input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.botoes {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.cancelar {
+  background: #ccc;
+  color: #333;
+}
+
+.confirmar {
+  background: linear-gradient(45deg, #ff4d6d, #ff758f);
+}
+
+/* POPUP CARICATURA */
+.caricatura-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.caricatura-box {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  animation: aparecer 0.3s ease;
+}
+
+.caricatura-box img {
+  width: 220px;
+}
+
+.success-msg {
+  margin-top: 15px;
+  background: #28a745;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+@keyframes aparecer {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media(max-width: 600px){
+  .container {
+    grid-template-columns: 1fr;
+  }
+  .banner img {
+    max-width: 80%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="banner">
+  <img src="henrique.png" alt="Chá de Casa Nova">
+</div>
+
+<div class="container">
+
+  <div class="item-box">
+    <img src="airfryeer.jpg">
+    <h3>Air Fryer</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="panela.png">
+    <h3>Jogo de Panelas</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="batedeira.webp">
+    <h3>Batedeira</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="jogodetaças.webp">
+    <h3>Jogo de Taças</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="jogodetalheres.webp">
+    <h3>Jogo de Talheres</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="jogodecama.webp">
+    <h3>Jogo de Cama</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="toalha.webp">
+    <h3>Toalha</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="cestoderoupa.jpg">
+    <h3>Cesto de Roupas</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="panosdeprato.webp">
+    <h3>Pano de Prato</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="cestodelixo.jpg">
+    <h3>Cesto de Lixo</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+</div>
+
+<!-- Modal Nome -->
+<div class="overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h2>Confirmar Reserva</h2>
+    <p>Digite seu nome para reservar:</p>
+    <input type="text" id="nomeInput" placeholder="Seu nome">
+    <div class="botoes">
+      <button class="cancelar" onclick="fecharModal()">Cancelar</button>
+      <button class="confirmar" onclick="confirmarReserva()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Popup Caricatura -->
+<div class="caricatura-overlay" id="caricaturaOverlay">
+  <div class="caricatura-box">
+    <img src="caricatura.png">
+    <div class="success-msg">✔ Item reservado com sucesso!</div>
+  </div>
+</div>
+
+<script>
+let botaoSelecionado = null;
+
+function reservar(botao) {
+  botaoSelecionado = botao;
+  document.getElementById("confirmOverlay").style.display = "flex";
+}
+
+function fecharModal() {
+  document.getElementById("confirmOverlay").style.display = "none";
+  document.getElementById("nomeInput").value = "";
+}
+
+function confirmarReserva() {
+  const nome = document.getElementById("nomeInput").value.trim();
+
+  if (nome === "") {
+    alert("Por favor, digite seu nome para confirmar.");
+    return;
+  }
+
+  botaoSelecionado.disabled = true;
+  botaoSelecionado.innerText = "Reservado por " + nome;
+  botaoSelecionado.style.background = "#777";
+  botaoSelecionado.style.cursor = "not-allowed";
+
+  fecharModal();
+
+  const overlay = document.getElementById("caricaturaOverlay");
+  overlay.style.display = "flex";
+
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
