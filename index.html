@@ -11,15 +11,17 @@ body {
   font-family: 'Segoe UI', sans-serif;
   background: #c0c0c0;
   text-align: center;
+  overflow-x: hidden; /* impede rolagem lateral */
 }
 
 /* Banner */
 .banner {
-  padding: 25px 0;
+  padding: 10px 0; /* controla espaço lateral */
 }
 
 .banner img {
-  max-width: 40%;
+  width: 100%;
+  max-width: 900px;
   height: auto;
   border-radius: 12px;
 }
@@ -27,23 +29,26 @@ body {
 /* Container padrão (PC) */
 .container {
   display: grid;
-  grid-template-columns: repeat(2, 260px); /* duas colunas no PC */
-  gap: 80px 100px;
-  justify-content: center;
-  padding: 40px 0;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px; /* espaço igual entre todos os itens */
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* Item box */
 .item-box {
   background: #ffffff;
-  width: 100%; /* ocupa 100% da coluna */
-  padding: 20px;
+  width: 85%;
+  padding: 1px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: 0.3s ease;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+
+  justify-self: end; /* joga o item para a direita */
 }
 
 .item-box:hover {
@@ -166,12 +171,18 @@ button:hover {
 }
 
 /* RESPONSIVO CELULAR */
-@media(max-width: 600px){
+@media (max-width: 600px) {
+
+  .banner img {
+    max-width: 90%;
+  }
+
   .container {
-    grid-template-columns: repeat(2, calc(50% - 10px)); /* duas colunas com espaço no meio */
-    gap: 15px; /* espaço entre os itens */
-    padding: 15px; /* espaço das laterais da tela */
-    justify-content: center;
+    grid-template-columns: repeat(2, 1fr); /* duas colunas no celular */
+    gap: 15px;
+    padding: 20px; /* espaço nas laterais */
+    max-width: 500px;
+    margin: 0 auto;
   }
 
   .item-box {
@@ -179,11 +190,11 @@ button:hover {
   }
 
   .item-box img {
-    height: 120px; /* imagem menor */
+    height: 110px; /* imagem menor */
   }
 
   .item-box h3 {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   button {
@@ -191,9 +202,6 @@ button:hover {
     font-size: 13px;
   }
 
-  .banner img {
-    max-width: 65%;
-  }
 }
 </style>
 </head>
@@ -328,4 +336,3 @@ function confirmarReserva() {
 
 </body>
 </html>
-
