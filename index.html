@@ -108,14 +108,16 @@ button:hover {
   animation: aparecer 0.25s ease;
 }
 
+
+
 .confirm-box input {
   width: 100%;
   padding: 10px;
   margin-top: 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
+  font-size: 16px; /* 👈 MUITO IMPORTANTE */
 }
-
 .botoes {
   margin-top: 20px;
   display: flex;
@@ -146,16 +148,19 @@ button:hover {
 
 .caricatura-box {
   background: white;
-  padding: 30px;
+  padding: 20px;
   border-radius: 20px;
   text-align: center;
-  animation: aparecer 0.3s ease;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: auto;
 }
 
 .caricatura-box img {
-  width: 220px;
+  width: 100%;
+  max-width: 220px;
+  height: auto;
 }
-
 .success-msg {
   margin-top: 15px;
   background: #28a745;
