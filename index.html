@@ -9,122 +9,28 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #c0c0c0;
-  text-align: center;
-  overflow-x: hidden;
-}
-
-.banner {
-  padding: 10px 0;
-}
-.banner img {
-  width: 100%;
-  max-width: 900px;
-  height: auto;
-  border-radius: 12px;
-}
-
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 15px;
-  padding: 20px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.item-box {
-  background: #fff;
-  padding: 10px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-  transition: 0.3s ease;
-}
-.item-box img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-.item-box h3 {
-  margin: 10px 0;
-  font-size: 16px;
-  color: #333;
-  font-weight: 600;
-  text-align: center;
-}
-button {
-  width: 100%;
-  background: linear-gradient(45deg, #ff4d6d, #ff758f);
-  border: none;
-  color: white;
-  padding: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: 0.2s;
-}
-button:hover {
-  opacity: 0.9;
-}
+body { margin:0; font-family:'Segoe UI', sans-serif; background:#c0c0c0; text-align:center; overflow-x:hidden; }
+.banner { padding:10px 0; }
+.banner img { width:100%; max-width:900px; height:auto; border-radius:12px; }
+.container { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:15px; padding:20px; max-width:900px; margin:0 auto; }
+.item-box { background:#fff; padding:10px; border-radius:12px; display:flex; flex-direction:column; align-items:center; box-shadow:0 3px 8px rgba(0,0,0,0.08); transition:0.3s ease; }
+.item-box img { width:100%; height:150px; object-fit:cover; border-radius:8px; }
+.item-box h3 { margin:10px 0; font-size:16px; color:#333; font-weight:600; text-align:center; }
+button { width:100%; background:linear-gradient(45deg,#ff4d6d,#ff758f); border:none; color:white; padding:8px; font-weight:bold; cursor:pointer; border-radius:8px; transition:0.2s; }
+button:hover { opacity:0.9; }
 
 /* MODAL */
-.overlay, .caricatura-overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.45);
-}
+.overlay, .caricatura-overlay { position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.45); }
+.confirm-box, .caricatura-box { background:white; padding:20px; border-radius:14px; text-align:center; max-width:90%; }
+.confirm-box input { width:100%; padding:10px; margin-top:10px; border-radius:8px; border:1px solid #ddd; font-size:16px; }
+.botoes { margin-top:15px; display:flex; gap:10px; }
+.cancelar { background:#ccc; color:#333; }
+.confirmar { background:linear-gradient(45deg,#ff4d6d,#ff758f); }
+.caricatura-box img { width:100%; max-width:220px; height:auto; }
+.success-msg { margin-top:10px; background:#28a745; color:white; padding:8px; border-radius:10px; font-weight:bold; }
 
-.confirm-box, .caricatura-box {
-  background: white;
-  padding: 20px;
-  border-radius: 14px;
-  text-align: center;
-  max-width: 90%;
-}
-
-.confirm-box input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-}
-.botoes {
-  margin-top: 15px;
-  display: flex;
-  gap: 10px;
-}
-.cancelar { background: #ccc; color: #333; }
-.confirmar { background: linear-gradient(45deg, #ff4d6d, #ff758f); }
-
-.caricatura-box img {
-  width: 100%;
-  max-width: 220px;
-  height: auto;
-}
-.success-msg {
-  margin-top: 10px;
-  background: #28a745;
-  color: white;
-  padding: 8px;
-  border-radius: 10px;
-  font-weight: bold;
-}
-
-@media (max-width:600px){
-  .container { grid-template-columns: repeat(2, 1fr); gap:10px; padding:10px; }
+@media(max-width:600px){
+  .container { grid-template-columns:repeat(2,1fr); gap:10px; padding:10px; }
   .item-box img { height:100px; }
   .item-box h3 { font-size:14px; }
   button { padding:6px; font-size:12px; }
@@ -137,9 +43,7 @@ button:hover {
   <img src="henrique.png" alt="Chá de Casa Nova">
 </div>
 
-<div class="container" id="itensContainer">
-  <!-- TODOS os itens serão carregados via JS -->
-</div>
+<div class="container" id="itensContainer"></div>
 
 <!-- Modal -->
 <div class="overlay" id="confirmOverlay">
@@ -163,125 +67,114 @@ button:hover {
 </div>
 
 <script>
-const supabaseUrl = 'COLE_AQUI_SUA_URL';
-const supabaseKey = 'COLE_AQUI_SUA_ANON_KEY';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+window.onload = async function() {
+  const supabaseUrl = 'COLE_AQUI_SUA_URL';
+  const supabaseKey = 'COLE_AQUI_SUA_ANON_KEY';
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-const itens = [
-  {nome:"Air Fryer", img:"airfryeer.jpg"},
-  {nome:"Jogo de Panelas", img:"jogodepanela.webp"},
-  {nome:"Batedeira", img:"batedeira.webp"},
-  {nome:"Jogo de Taças", img:"jogodetaças.webp"},
-  {nome:"Jogo de Talheres", img:"jogodetalheres.webp"},
-  {nome:"Jogo de Cama", img:"jogodecama.webp"},
-  {nome:"Toalha", img:"toalha.webp"},
-  {nome:"Cesto de Roupas", img:"cestoderoupa.webp"},
-  {nome:"Pano de Prato", img:"panosdeprato.webp"},
-  {nome:"Cesto de Lixo", img:"cestodelixo.jpg"},
-  {nome:"Afiador de Faca", img:"afiadordefaca.jpg"},
-  {nome:"Aspirador de Pó", img:"aspiradordepo.webp"},
-  {nome:"Assadeira", img:"Assadeira.webp"},
-  {nome:"Assadeira de Vidro", img:"assadeiradevidro.webp"},
-  {nome:"Boleira", img:"boleira.webp"},
-  {nome:"Cadeira de Praia", img:"cadeiradepraia.webp"},
-  {nome:"Cafeteira", img:"cafeteira.jpg"},
-  {nome:"Chaleira de Indução", img:"chaleirainduçao.jpg"},
-  {nome:"Colher de Silicone", img:"Colher de silicone.jfif"},
-  {nome:"Copo Medidor", img:"copomedidor.webp"},
-  {nome:"Jogo de Copos", img:"coposvidro.webp"},
-  {nome:"Escorredor de Macarrão", img:"escorredordemacarrao.jpg"},
-  {nome:"Escova para Vaso Sanaitário", img:"escovaparavasosanitario.webp"},
-  {nome:"Espetos", img:"espetos.webp"},
-  {nome:"Esteira Porta Copos de sofá", img:"esteiraportacoposofa.jpg"},
-  {nome:"Ferro de Passar", img:"ferrodepassar.webp"},
-  {nome:"Forma para Pão", img:"formadepao.jfif"},
-  {nome:"Forma Pudim", img:"formadepudim.webp"},
-  {nome:"Forma Redonda", img:"formaredonda.jpg"},
-  {nome:"Frigideira", img:"frigideira.webp"},
-  {nome:"Fue", img:"fue.webp"},
-  {nome:"Garrafa Termica", img:"garrafatermica.jpg"},
-  {nome:"Jarra de Vidro", img:"jarradevidro.jpg"},
-  {nome:"Jogo de Facas", img:"Jogo de facas.jfif"},
-  {nome:"Jogo para Sobremesa", img:"jogodesobremesa.png"},
-  {nome:"Kit de silicone p/Cozinha", img:"kit silicone cozinha.webp"},
-  {nome:"Kit Xicara", img:"kitchicara.webp"},
-  {nome:"Kit Lençol", img:"kitlençol.jpg"},
-  {nome:"Kit para Churrasco", img:"kitparachurasco.webp"},
-  {nome:"Microondas", img:"Microondas.webp"},
-  {nome:"Mixer", img:"mixer.webp"},
-  {nome:"Porta Talheres", img:"Porta talheres.webp"},
-  {nome:"Porta Sabonete", img:"portasabonete.webp"},
-  {nome:"Pote para Frios", img:"potefrios.webp"},
-  {nome:"Pote Hermetico", img:"potehermetrico.webp"},
-  {nome:"Jogo de Pratos", img:"Pratos.webp"},
-  {nome:"Purificador de Agua", img:"purificadordeagua.webp"},
-  {nome:"Toalha de Mesa", img:"toalhademesa.webp"},
-  {nome:"Toalha de Rosto", img:"toalharosto.webp"},
-  {nome:"Torradeira/Grill", img:"torradeira.webp"},
-  {nome:"Varal de Chão", img:"varaldechao.jpg"},
-  {nome:"Vaso Decorativo", img:"vasodecorativo.webp"}
-];
+  const itens = [
+    {nome:"Air Fryer", img:"airfryeer.jpg"},
+    {nome:"Jogo de Panelas", img:"jogodepanela.webp"},
+    {nome:"Batedeira", img:"batedeira.webp"},
+    {nome:"Jogo de Taças", img:"jogodetaças.webp"},
+    {nome:"Jogo de Talheres", img:"jogodetalheres.webp"},
+    {nome:"Jogo de Cama", img:"jogodecama.webp"},
+    {nome:"Toalha", img:"toalha.webp"},
+    {nome:"Cesto de Roupas", img:"cestoderoupa.webp"},
+    {nome:"Pano de Prato", img:"panosdeprato.webp"},
+    {nome:"Cesto de Lixo", img:"cestodelixo.jpg"},
+    {nome:"Afiador de Faca", img:"afiadordefaca.jpg"},
+    {nome:"Aspirador de Pó", img:"aspiradordepo.webp"},
+    {nome:"Assadeira", img:"Assadeira.webp"},
+    {nome:"Assadeira de Vidro", img:"assadeiradevidro.webp"},
+    {nome:"Boleira", img:"boleira.webp"},
+    {nome:"Cadeira de Praia", img:"cadeiradepraia.webp"},
+    {nome:"Cafeteira", img:"cafeteira.jpg"},
+    {nome:"Chaleira de Indução", img:"chaleirainduçao.jpg"},
+    {nome:"Colher de Silicone", img:"Colher de silicone.jfif"},
+    {nome:"Copo Medidor", img:"copomedidor.webp"},
+    {nome:"Jogo de Copos", img:"coposvidro.webp"},
+    {nome:"Escorredor de Macarrão", img:"escorredordemacarrao.jpg"},
+    {nome:"Escova para Vaso Sanaitário", img:"escovaparavasosanitario.webp"},
+    {nome:"Espetos", img:"espetos.webp"},
+    {nome:"Esteira Porta Copos de sofá", img:"esteiraportacoposofa.jpg"},
+    {nome:"Ferro de Passar", img:"ferrodepassar.webp"},
+    {nome:"Forma para Pão", img:"formadepao.jfif"},
+    {nome:"Forma Pudim", img:"formadepudim.webp"},
+    {nome:"Forma Redonda", img:"formaredonda.jpg"},
+    {nome:"Frigideira", img:"frigideira.webp"},
+    {nome:"Fue", img:"fue.webp"},
+    {nome:"Garrafa Termica", img:"garrafatermica.jpg"},
+    {nome:"Jarra de Vidro", img:"jarradevidro.jpg"},
+    {nome:"Jogo de Facas", img:"Jogo de facas.jfif"},
+    {nome:"Jogo para Sobremesa", img:"jogodesobremesa.png"},
+    {nome:"Kit de silicone p/Cozinha", img:"kit silicone cozinha.webp"},
+    {nome:"Kit Xicara", img:"kitchicara.webp"},
+    {nome:"Kit Lençol", img:"kitlençol.jpg"},
+    {nome:"Kit para Churrasco", img:"kitparachurasco.webp"},
+    {nome:"Microondas", img:"Microondas.webp"},
+    {nome:"Mixer", img:"mixer.webp"},
+    {nome:"Porta Talheres", img:"Porta talheres.webp"},
+    {nome:"Porta Sabonete", img:"portasabonete.webp"},
+    {nome:"Pote para Frios", img:"potefrios.webp"},
+    {nome:"Pote Hermetico", img:"potehermetrico.webp"},
+    {nome:"Jogo de Pratos", img:"Pratos.webp"},
+    {nome:"Purificador de Agua", img:"purificadordeagua.webp"},
+    {nome:"Toalha de Mesa", img:"toalhademesa.webp"},
+    {nome:"Toalha de Rosto", img:"toalharosto.webp"},
+    {nome:"Torradeira/Grill", img:"torradeira.webp"},
+    {nome:"Varal de Chão", img:"varaldechao.jpg"},
+    {nome:"Vaso Decorativo", img:"vasodecorativo.webp"}
+  ];
 
-// Renderizar itens e atualizar status do Supabase
-async function carregarItens() {
   const container = document.getElementById('itensContainer');
-  container.innerHTML = '';
-  
-  const {data: reservas} = await supabase
-    .from('reservas')
-    .select('*');
+  let botaoSelecionado = null;
+  let itemSelecionado = null;
 
-  itens.forEach(item => {
-    const reservado = reservas.some(r => r.item === item.nome);
-    const div = document.createElement('div');
-    div.className = 'item-box';
-    div.innerHTML = `
-      <img src="${item.img}">
-      <h3>${item.nome}</h3>
-      <button ${reservado ? 'disabled style="background:#777;cursor:not-allowed"' : ''} onclick="reservar(this,'${item.nome}')">
-        ${reservado ? 'Reservado' : 'Reservar'}
-      </button>
-    `;
-    container.appendChild(div);
-  });
-}
-
-let botaoSelecionado = null;
-let itemSelecionado = null;
-
-function reservar(botao, itemNome) {
-  botaoSelecionado = botao;
-  itemSelecionado = itemNome;
-  document.getElementById("confirmOverlay").style.display = "flex";
-}
-
-function fecharModal() {
-  document.getElementById("confirmOverlay").style.display = "none";
-  document.getElementById("nomeInput").value = "";
-}
-
-async function confirmarReserva() {
-  const nome = document.getElementById("nomeInput").value.trim();
-  if(!nome){ alert('Digite seu nome'); return; }
-
-  const {error} = await supabase
-    .from('reservas')
-    .insert([{item:itemSelecionado, nome: nome}]);
-
-  if(error){
-    alert('Erro ao reservar, tente novamente.');
-    return;
+  async function carregarItens() {
+    container.innerHTML = '';
+    const {data: reservas} = await supabase.from('reservas').select('*');
+    itens.forEach(item => {
+      const reservado = reservas.some(r => r.item === item.nome);
+      const div = document.createElement('div');
+      div.className = 'item-box';
+      div.innerHTML = `
+        <img src="${item.img}">
+        <h3>${item.nome}</h3>
+        <button ${reservado ? 'disabled style="background:#777;cursor:not-allowed"' : ''} onclick="reservarItem(this,'${item.nome}')">
+          ${reservado ? 'Reservado' : 'Reservar'}
+        </button>
+      `;
+      container.appendChild(div);
+    });
   }
 
-  fecharModal();
-  document.getElementById('caricaturaOverlay').style.display = 'flex';
-  setTimeout(()=>document.getElementById('caricaturaOverlay').style.display='none',2000);
+  window.reservarItem = (botao, nomeItem) => {
+    botaoSelecionado = botao;
+    itemSelecionado = nomeItem;
+    document.getElementById("nomeInput").value = '';
+    document.getElementById("confirmOverlay").style.display = "flex";
+  }
 
-  carregarItens(); // atualiza a tela
+  window.fecharModal = () => document.getElementById("confirmOverlay").style.display = "none";
+
+  window.confirmarReserva = async () => {
+    const nome = document.getElementById("nomeInput").value.trim();
+    if(!nome){ alert('Digite seu nome'); return; }
+
+    const {error} = await supabase.from('reservas').insert([{item:itemSelecionado,nome:nome}]);
+    if(error){ alert('Erro ao reservar'); return; }
+
+    document.getElementById("confirmOverlay").style.display = "none";
+    document.getElementById('caricaturaOverlay').style.display = 'flex';
+    setTimeout(()=>document.getElementById('caricaturaOverlay').style.display='none',2000);
+
+    carregarItens();
+  }
+
+  carregarItens();
 }
-
-// Carregar itens ao iniciar
-carregarItens();
 </script>
+
 </body>
 </html>
