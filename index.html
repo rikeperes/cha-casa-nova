@@ -281,26 +281,16 @@ async function confirmarReserva() {
   const nome = document.getElementById("nomeInput").value.trim();
   if (!nome) { alert("Digite seu nome."); return; }
 
-  // Tenta atualizar reserva se já existir, senão insere
+  // Atualiza somente se nome ainda for NULL
   const { data, error } = await supabase
     .from("reservas")
-    .select("nome")
-    .eq("item", itemSelecionado)
-    .single();
-
-  if (data && data.nome) {
-    alert("Este item já foi reservado!");
-    fecharModal();
-    return;
-  }
-
-  const { error: insertError } = await supabase
-    .from("reservas")
     .update({ nome: nome })
-    .eq("item", itemSelecionado);
+    .eq("item", itemSelecionado)
+    .is("nome", null)
+    .select();
 
-  if (insertError) {
-    alert("Erro ao reservar. Tente novamente.");
+  if (error || data.length === 0) {
+    alert("Este item já foi reservado!");
     fecharModal();
     return;
   }
@@ -347,3 +337,4 @@ carregarReservas();
 
 </body>
 </html>
+
