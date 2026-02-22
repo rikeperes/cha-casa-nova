@@ -554,11 +554,21 @@ button:hover {
   </div>
 </div>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-let botaoSelecionado = null;
+const supabase = window.supabase.createClient(
+  "SUA_URL_AQUI",
+  "SUA_ANON_KEY_AQUI"
+);
 
+let botaoSelecionado = null;
+let itemSelecionado = "";
+
+/* Ao clicar em reservar */
 function reservar(botao) {
   botaoSelecionado = botao;
+  itemSelecionado = botao.parentElement.querySelector("h3").innerText;
   document.getElementById("confirmOverlay").style.display = "flex";
 }
 
@@ -567,11 +577,22 @@ function fecharModal() {
   document.getElementById("nomeInput").value = "";
 }
 
-function confirmarReserva() {
+/* Confirmar reserva e salvar no banco */
+async function confirmarReserva() {
   const nome = document.getElementById("nomeInput").value.trim();
 
   if (nome === "") {
-    alert("Por favor, digite seu nome para confirmar.");
+    alert("Digite seu nome.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("reservas")
+    .insert([{ item: itemSelecionado, nome: nome }]);
+
+  if (error) {
+    alert("Este item já foi reservado por outra pessoa!");
+    fecharModal();
     return;
   }
 
@@ -589,6 +610,33 @@ function confirmarReserva() {
     overlay.style.display = "none";
   }, 2000);
 }
+
+/* 🔥 Carregar reservas ao abrir o site */
+async function carregarReservas() {
+  const { data } = await supabase
+    .from("reservas")
+    .select("*");
+
+  if (data) {
+    data.forEach(reserva => {
+      const itens = document.querySelectorAll(".item-box");
+
+      itens.forEach(box => {
+        const titulo = box.querySelector("h3").innerText;
+        const botao = box.querySelector("button");
+
+        if (titulo === reserva.item) {
+          botao.disabled = true;
+          botao.innerText = "Reservado por " + reserva.nome;
+          botao.style.background = "#777";
+          botao.style.cursor = "not-allowed";
+        }
+      });
+    });
+  }
+}
+
+carregarReservas();
 </script>
 
 </body>
