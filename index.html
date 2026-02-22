@@ -18,6 +18,7 @@ body {
 .banner {
   padding: 10px 0;
 }
+
 .banner img {
   width: 100%;
   max-width: 900px;
@@ -46,10 +47,26 @@ body {
   align-items: center;
   transition: 0.3s ease;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  justify-self: end;
 }
-.item-box:hover { transform: translateY(-5px); }
-.item-box img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
-.item-box h3 { margin: 15px 0; font-size: 20px; color: #333; font-weight: 600; }
+
+.item-box:hover {
+  transform: translateY(-5px);
+}
+
+.item-box img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-box h3 {
+  margin: 15px 0;
+  font-size: 20px;
+  color: #333;
+  font-weight: 600;
+}
 
 button {
   width: 100%;
@@ -62,18 +79,24 @@ button {
   transition: 0.2s;
   border-radius: 8px;
 }
-button:hover { opacity: 0.9; }
+
+button:hover {
+  opacity: 0.9;
+}
 
 /* MODAL NOME */
 .overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.45);
   display: none;
   justify-content: center;
   align-items: center;
 }
+
 .confirm-box {
   background: white;
   padding: 30px;
@@ -83,34 +106,66 @@ button:hover { opacity: 0.9; }
   text-align: center;
   animation: aparecer 0.25s ease;
 }
+
 .confirm-box input {
-  width: 100%; padding: 10px; margin-top: 15px;
-  border: 1px solid #ddd; border-radius: 8px; font-size: 16px;
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
 }
-.botoes { margin-top: 20px; display: flex; gap: 10px; }
-.cancelar { background: #ccc; color: #333; }
-.confirmar { background: linear-gradient(45deg, #ff4d6d, #ff758f); }
+
+.botoes {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.cancelar {
+  background: #ccc;
+  color: #333;
+}
+
+.confirmar {
+  background: linear-gradient(45deg, #ff4d6d, #ff758f);
+}
 
 /* POPUP CARICATURA */
 .caricatura-overlay {
   position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.4);
-  display:none; justify-content:center; align-items:center;
+  display: none;
+  justify-content: center;
+  align-items: center;
 }
+
 .caricatura-box {
-  background:white; padding:20px;
-  border-radius:20px;
-  text-align:center;
-  max-width:90%; max-height:90vh; overflow:auto;
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: auto;
 }
-.caricatura-box img { width:100%; max-width:220px; height:auto; }
+
+.caricatura-box img {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+}
 .success-msg {
-  margin-top:15px;
-  background:#28a745; color:white;
-  padding:10px; border-radius:10px;
-  font-weight:bold;
+  margin-top: 15px;
+  background: #28a745;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: bold;
 }
 
 @keyframes aparecer {
@@ -123,7 +178,10 @@ button:hover { opacity: 0.9; }
   .banner img { max-width: 90%; }
   .container {
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px; padding: 20px; max-width: 500px; margin:0 auto;
+    gap: 15px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
   }
   .item-box { padding: 12px; }
   .item-box img { height: 110px; }
@@ -139,19 +197,8 @@ button:hover { opacity: 0.9; }
   <img src="henrique.png" alt="Chá de Casa Nova">
 </div>
 
-<div class="container">
-  <!-- Exemplo de item -->
-  <div class="item-box">
-    <img src="airfryeer.jpg">
-    <h3>Air Fryer</h3>
-    <button>Reservar</button>
-  </div>
-  <div class="item-box">
-    <img src="jogodepanela.webp">
-    <h3>Jogo de Panelas</h3>
-    <button>Reservar</button>
-  </div>
-  <!-- Continue todos os seus outros itens aqui... -->
+<div class="container" id="itensContainer">
+  <!-- TODOS OS ITENS ORIGINAIS DO SEU HTML VÃO AQUI -->
 </div>
 
 <!-- Modal Nome -->
@@ -161,8 +208,8 @@ button:hover { opacity: 0.9; }
     <p>Digite seu nome para reservar:</p>
     <input type="text" id="nomeInput" placeholder="Seu nome">
     <div class="botoes">
-      <button class="cancelar">Cancelar</button>
-      <button class="confirmar">Confirmar</button>
+      <button class="cancelar" onclick="fecharModal()">Cancelar</button>
+      <button class="confirmar" onclick="confirmarReserva()">Confirmar</button>
     </div>
   </div>
 </div>
@@ -175,87 +222,86 @@ button:hover { opacity: 0.9; }
   </div>
 </div>
 
-<!-- SUPABASE -->
+<!-- Supabase JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-window.addEventListener('DOMContentLoaded', () => {
+const SUPABASE_URL = 'https://SEU_SUPABASE_URL.supabase.co';
+const SUPABASE_ANON_KEY = 'SUA_SUPABASE_ANON_KEY';
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  const supabase = window.supabase.createClient(
-    "SUA_URL_AQUI",
-    "SUA_ANON_KEY_AQUI"
-  );
+let botaoSelecionado = null;
+let itemSelecionadoId = null;
 
-  let botaoSelecionado = null;
-  let itemSelecionado = "";
+// Todos os itens originais
+const itens = [
+  {id:1, nome:"Air Fryer", img:"airfryeer.jpg"},
+  {id:2, nome:"Jogo de Panelas", img:"jogodepanela.webp"},
+  {id:3, nome:"Batedeira", img:"batedeira.webp"},
+  {id:4, nome:"Jogo de Taças", img:"jogodetaças.webp"},
+  {id:5, nome:"Jogo de Talheres", img:"jogodetalheres.webp"},
+  {id:6, nome:"Jogo de Cama", img:"jogodecama.webp"},
+  {id:7, nome:"Toalha", img:"toalha.webp"},
+  {id:8, nome:"Cesto de Roupas", img:"cestoderoupa.webp"},
+  {id:9, nome:"Pano de Prato", img:"panosdeprato.webp"},
+  {id:10, nome:"Cesto de Lixo", img:"cestodelixo.jpg"},
+  // continue todos os itens restantes aqui, com id, nome e img
+];
 
-  // Reservar
-  document.querySelectorAll('.item-box button').forEach(botao => {
-    botao.addEventListener('click', () => {
-      botaoSelecionado = botao;
-      itemSelecionado = botao.parentElement.querySelector('h3').innerText;
-      document.getElementById("confirmOverlay").style.display = "flex";
-    });
-  });
+// Carregar itens na página
+async function carregarItens() {
+  const { data: reservas } = await supabase.from('reservas').select('*');
+  const container = document.getElementById('itensContainer');
+  container.innerHTML = '';
 
-  // Cancelar
-  document.querySelector(".cancelar").addEventListener('click', () => {
-    document.getElementById("confirmOverlay").style.display = "none";
-    document.getElementById("nomeInput").value = "";
-  });
+  itens.forEach(item => {
+    const jaReservado = reservas.find(r => r.item_id === item.id);
+    const box = document.createElement('div');
+    box.className = 'item-box';
+    box.innerHTML = `
+      <img src="${item.img}">
+      <h3>${item.nome}</h3>
+      <button ${jaReservado ? 'disabled style="background:#777;cursor:not-allowed;"' : ''}>
+        ${jaReservado ? `Reservado por ${jaReservado.nome}` : 'Reservar'}
+      </button>
+    `;
+    container.appendChild(box);
 
-  // Confirmar
-  document.querySelector(".confirmar").addEventListener('click', async () => {
-    const nome = document.getElementById("nomeInput").value.trim();
-    if(nome === "") {
-      alert("Digite seu nome.");
-      return;
-    }
-
-    const { error } = await supabase
-      .from("reservas")
-      .insert([{ item: itemSelecionado, nome: nome }]);
-
-    if(error){
-      alert("Este item já foi reservado por outra pessoa!");
-      document.getElementById("confirmOverlay").style.display = "none";
-      document.getElementById("nomeInput").value = "";
-      return;
-    }
-
-    botaoSelecionado.disabled = true;
-    botaoSelecionado.innerText = "Reservado por " + nome;
-    botaoSelecionado.style.background = "#777";
-    botaoSelecionado.style.cursor = "not-allowed";
-
-    document.getElementById("confirmOverlay").style.display = "none";
-    document.getElementById("nomeInput").value = "";
-
-    const overlay = document.getElementById("caricaturaOverlay");
-    overlay.style.display = "flex";
-    setTimeout(()=>{ overlay.style.display = "none"; }, 2000);
-  });
-
-  // Carregar reservas já feitas
-  async function carregarReservas(){
-    const { data } = await supabase.from("reservas").select("*");
-    if(data){
-      data.forEach(reserva => {
-        document.querySelectorAll(".item-box").forEach(box => {
-          const titulo = box.querySelector("h3").innerText;
-          const botao = box.querySelector("button");
-          if(titulo === reserva.item){
-            botao.disabled = true;
-            botao.innerText = "Reservado por " + reserva.nome;
-            botao.style.background = "#777";
-            botao.style.cursor = "not-allowed";
-          }
-        });
+    if(!jaReservado){
+      box.querySelector('button').addEventListener('click', () => {
+        botaoSelecionado = box.querySelector('button');
+        itemSelecionadoId = item.id;
+        document.getElementById("confirmOverlay").style.display = "flex";
       });
     }
-  }
+  });
+}
 
-  carregarReservas();
-});
+async function confirmarReserva() {
+  const nome = document.getElementById("nomeInput").value.trim();
+  if(nome === "") return alert("Digite seu nome");
+
+  const { error } = await supabase.from('reservas').insert([{ item_id: itemSelecionadoId, nome }]);
+  if(error) return alert("Erro ao reservar: "+error.message);
+
+  document.getElementById("confirmOverlay").style.display = "none";
+  document.getElementById("nomeInput").value = "";
+
+  const overlay = document.getElementById("caricaturaOverlay");
+  overlay.style.display = "flex";
+  setTimeout(()=> overlay.style.display="none", 2000);
+
+  // Recarrega os itens para atualizar status
+  carregarItens();
+}
+
+function fecharModal() {
+  document.getElementById("confirmOverlay").style.display = "none";
+  document.getElementById("nomeInput").value = "";
+}
+
+// Inicializa
+carregarItens();
 </script>
 
 </body>
