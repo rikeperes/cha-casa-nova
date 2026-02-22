@@ -211,41 +211,24 @@ button:hover {
   <img src="henrique.png" alt="Chá de Casa Nova">
 </div>
 
-<div class="container">
-  <!-- TODOS OS ITENS ESTÁTICOS -->
+<div class="container" id="itensContainer">
+  <!-- TODOS OS ITENS -->
   <div class="item-box">
     <img src="airfryeer.jpg">
     <h3>Air Fryer</h3>
     <button onclick="reservar(this)" ontouchstart="reservar(this)">Reservar</button>
   </div>
-
   <div class="item-box">
     <img src="jogodepanela.webp">
     <h3>Jogo de Panelas</h3>
     <button onclick="reservar(this)" ontouchstart="reservar(this)">Reservar</button>
   </div>
-
   <div class="item-box">
     <img src="batedeira.webp">
     <h3>Batedeira</h3>
     <button onclick="reservar(this)" ontouchstart="reservar(this)">Reservar</button>
   </div>
-
-  <!-- Repita o mesmo padrão para todos os seus outros itens -->
-  <!-- ... -->
-  <!-- Exemplo: -->
-  <div class="item-box">
-    <img src="jogodetaças.webp">
-    <h3>Jogo de Taças</h3>
-    <button onclick="reservar(this)" ontouchstart="reservar(this)">Reservar</button>
-  </div>
-  <div class="item-box">
-    <img src="jogodetalheres.webp">
-    <h3>Jogo de Talheres</h3>
-    <button onclick="reservar(this)" ontouchstart="reservar(this)">Reservar</button>
-  </div>
-
-  <!-- Continue adicionando todos os itens do seu HTML original -->
+  <!-- ADICIONE TODOS OS OUTROS ITENS AQUI COM MESMO PADRÃO -->
 </div>
 
 <!-- Modal Nome -->
@@ -269,7 +252,13 @@ button:hover {
   </div>
 </div>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const supabaseUrl = "https://jjudsjfgrtmmorhgqijl.supabase.co";
+const supabaseKey = "sb_publishable_YWmcJUQoL9OnB-ylEzOy6w_pE5rEMrL?";
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
 let botaoSelecionado = null;
 
 function reservar(botao) {
@@ -282,28 +271,71 @@ function fecharModal() {
   document.getElementById("nomeInput").value = "";
 }
 
-function confirmarReserva() {
+async function confirmarReserva() {
   const nome = document.getElementById("nomeInput").value.trim();
+  if (!nome) { alert("Digite seu nome!"); return; }
 
-  if (nome === "") {
-    alert("Por favor, digite seu nome para confirmar.");
+  const itemNome = botaoSelecionado.parentElement.querySelector("h3").innerText;
+
+  // Verifica se já foi reservado
+  const { data, error } = await supabase
+    .from("reservas")
+    .select("nome_reservou")
+    .eq("item", itemNome)
+    .single();
+
+  if (error) { console.error(error); alert("Erro ao verificar reserva."); return; }
+
+  if (data && data.nome_reservou) {
+    alert("Este item já foi reservado!");
+    botaoSelecionado.disabled = true;
+    botaoSelecionado.innerText = "Reservado";
+    botaoSelecionado.style.background = "#777";
+    botaoSelecionado.style.cursor = "not-allowed";
+    fecharModal();
     return;
   }
+
+  // Atualiza como reservado
+  const { error: updateError } = await supabase
+    .from("reservas")
+    .update({ nome_reservou: nome })
+    .eq("item", itemNome);
+
+  if (updateError) { console.error(updateError); alert("Erro ao reservar."); return; }
 
   botaoSelecionado.disabled = true;
   botaoSelecionado.innerText = "Reservado";
   botaoSelecionado.style.background = "#777";
   botaoSelecionado.style.cursor = "not-allowed";
-
   fecharModal();
 
   const overlay = document.getElementById("caricaturaOverlay");
   overlay.style.display = "flex";
-
-  setTimeout(() => {
-    overlay.style.display = "none";
-  }, 2000);
+  setTimeout(() => { overlay.style.display = "none"; }, 2000);
 }
+
+// Atualiza itens reservados ao carregar
+async function carregarReservas() {
+  const { data, error } = await supabase.from("reservas").select("*");
+  if (error) { console.error(error); return; }
+
+  data.forEach(reserva => {
+    const itens = document.querySelectorAll(".item-box");
+    itens.forEach(box => {
+      const nomeItem = box.querySelector("h3").innerText;
+      if (nomeItem === reserva.item && reserva.nome_reservou) {
+        const botao = box.querySelector("button");
+        botao.disabled = true;
+        botao.innerText = "Reservado";
+        botao.style.background = "#777";
+        botao.style.cursor = "not-allowed";
+      }
+    });
+  });
+}
+
+window.onload = carregarReservas;
 </script>
 
 </body>
