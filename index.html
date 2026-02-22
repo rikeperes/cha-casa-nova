@@ -4,63 +4,550 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lista do Chá de Casa Nova</title>
+
 <style>
-body { margin:0; font-family:'Segoe UI', sans-serif; background:#c0c0c0; text-align:center; overflow-x:hidden; }
-.banner { padding:10px 0; }
-.banner img { width:100%; max-width:900px; height:auto; border-radius:12px; }
-.container { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:20px; padding:40px 20px; max-width:900px; margin:0 auto; }
-.item-box { background:#fff; width:85%; padding:1px; border-radius:12px; display:flex; flex-direction:column; align-items:center; transition:0.3s ease; box-shadow:0 3px 8px rgba(0,0,0,0.08); }
-.item-box:hover { transform:translateY(-5px); }
-.item-box img { width:100%; height:200px; object-fit:cover; border-radius:8px; }
-.item-box h3 { margin:15px 0; font-size:20px; color:#333; font-weight:600; }
-button { width:100%; background:linear-gradient(45deg,#ff4d6d,#ff758f); border:none; color:white; padding:12px; font-weight:bold; cursor:pointer; transition:0.2s; border-radius:8px; }
-button:hover { opacity:0.9; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #c0c0c0;
+  text-align: center;
+  overflow-x: hidden; /* impede rolagem lateral */
+}
 
-.overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); display:none; justify-content:center; align-items:center; z-index:9999; }
-.confirm-box { background:white; padding:30px; width:320px; border-radius:14px; box-shadow:0 20px 40px rgba(0,0,0,0.25); text-align:center; animation:aparecer 0.25s ease; }
-.confirm-box input { width:100%; padding:10px; margin-top:15px; border:1px solid #ddd; border-radius:8px; font-size:16px; }
-.botoes { margin-top:20px; display:flex; gap:10px; }
-.cancelar { background:#ccc; color:#333; }
-.confirmar { background:linear-gradient(45deg,#ff4d6d,#ff758f); }
+/* Banner */
+.banner {
+  padding: 10px 0; /* controla espaço lateral */
+}
 
-.caricatura-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); display:none; justify-content:center; align-items:center; z-index:9998; }
-.caricatura-box { background:white; padding:20px; border-radius:20px; text-align:center; max-width:90%; max-height:90vh; overflow:auto; }
-.caricatura-box img { width:100%; max-width:220px; height:auto; }
-.success-msg { margin-top:15px; background:#28a745; color:white; padding:10px; border-radius:10px; font-weight:bold; }
-@keyframes aparecer { from{transform:scale(0.8);opacity:0;} to{transform:scale(1);opacity:1;} }
+.banner img {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  border-radius: 12px;
+}
 
-@media(max-width:600px){
-  .banner img{max-width:90%;}
-  .container{grid-template-columns:repeat(2,1fr); gap:15px; padding:20px; max-width:500px; margin:0 auto;}
-  .item-box{padding:12px;}
-  .item-box img{height:110px;}
-  .item-box h3{font-size:15px;}
-  button{padding:8px;font-size:13px;}
+/* Container padrão (PC) */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px; /* espaço igual entre todos os itens */
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Item box */
+.item-box {
+  background: #ffffff;
+  width: 85%;
+  padding: 1px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+
+  justify-self: end; /* joga o item para a direita */
+}
+
+.item-box:hover {
+  transform: translateY(-5px);
+}
+
+.item-box img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-box h3 {
+  margin: 15px 0;
+  font-size: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+button {
+  width: 100%;
+  background: linear-gradient(45deg, #ff4d6d, #ff758f);
+  border: none;
+  color: white;
+  padding: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  border-radius: 8px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* MODAL NOME */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-box {
+  background: white;
+  padding: 30px;
+  width: 320px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  text-align: center;
+  animation: aparecer 0.25s ease;
+}
+
+
+
+.confirm-box input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px; /* 👈 MUITO IMPORTANTE */
+}
+.botoes {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.cancelar {
+  background: #ccc;
+  color: #333;
+}
+
+.confirmar {
+  background: linear-gradient(45deg, #ff4d6d, #ff758f);
+}
+
+/* POPUP CARICATURA */
+.caricatura-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.caricatura-box {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.caricatura-box img {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+}
+.success-msg {
+  margin-top: 15px;
+  background: #28a745;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+@keyframes aparecer {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* RESPONSIVO CELULAR */
+@media (max-width: 600px) {
+
+  .banner img {
+    max-width: 90%;
+  }
+
+  .container {
+    grid-template-columns: repeat(2, 1fr); /* duas colunas no celular */
+    gap: 15px;
+    padding: 20px; /* espaço nas laterais */
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .item-box {
+    padding: 12px;
+  }
+
+  .item-box img {
+    height: 110px; /* imagem menor */
+  }
+
+  .item-box h3 {
+    font-size: 15px;
+  }
+
+  button {
+    padding: 8px;
+    font-size: 13px;
+  }
+
 }
 </style>
 </head>
+
 <body>
+  
 
 <div class="banner">
   <img src="henrique.png" alt="Chá de Casa Nova">
 </div>
 
-<div class="container" id="itensContainer">
-  <!-- Itens serão inseridos via JS -->
+<div class="container">
+
+  <div class="item-box">
+    <img src="airfryeer.jpg">
+    <h3>Air Fryer</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="jogodepanela.webp">
+    <h3>Jogo de Panelas</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="batedeira.webp">
+    <h3>Batedeira</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="jogodetaças.webp">
+    <h3>Jogo de Taças</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="jogodetalheres.webp">
+    <h3>Jogo de Talheres</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="jogodecama.webp">
+    <h3>Jogo de Cama</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="toalha.webp">
+    <h3>Toalha</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="cestoderoupa.webp">
+    <h3>Cesto de Roupas</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="panosdeprato.webp">
+    <h3>Pano de Prato</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="cestodelixo.jpg">
+    <h3>Cesto de Lixo</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="afiadordefaca.jpg">
+    <h3>Afiador de Faca</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="aspiradordepo.webp">
+    <h3>Aspirador de Pó</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="Assadeira.webp">
+    <h3>Assadeira</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+  <div class="item-box">
+    <img src="assadeiradevidro.webp">
+    <h3>Assadeira de Vidro</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="boleira.webp">
+    <h3>Boleira</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="cadeiradepraia.webp">
+    <h3>Cadeira de Praia</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="cafeteira.jpg">
+    <h3>Cafeteira</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="chaleirainduçao.jpg">
+    <h3>Chaleira de Indução</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="Colher de silicone.jfif">
+    <h3>Colher de Silicone</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="copomedidor.webp">
+    <h3>Copo Medidor</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="coposvidro.webp">
+    <h3>Jogo de Copos</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="escorredordemacarrao.jpg">
+    <h3>Escorredor de Macarrão</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="escovaparavasosanitario.webp">
+    <h3>Escova para Vaso Sanaitário</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="espetos.webp">
+    <h3>Espetos</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="esteiraportacoposofa.jpg">
+    <h3>Esteira Porta Copos de sofá</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="ferrodepassar.webp">
+    <h3>Ferro de Passar</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="formadepao.jfif">
+    <h3>Forma para Pão</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="formadepudim.webp">
+    <h3>Forma Pudim</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="formaredonda.jpg">
+    <h3>Forma Redonda</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="frigideira.webp">
+    <h3>Frigideira</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+ 
+  <div class="item-box">
+    <img src="fue.webp">
+    <h3>Fue</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="garrafatermica.jpg">
+    <h3>Garrafa Termica</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="jarradevidro.jpg">
+    <h3>Jarra de Vidro</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="Jogo de facas.jfif">
+    <h3>Jogo de Facas</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="jogodesobremesa.png">
+    <h3>Jogo para Sobremesa</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="kit silicone cozinha.webp">
+    <h3>Kit de silicone p/Cozinha</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="kitchicara.webp">
+    <h3>Kit Xicara</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="kitlençol.jpg">
+    <h3>Kit Lençol</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="kitparachurasco.webp">
+    <h3>Kit para Churrasco</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="Microondas.webp">
+    <h3>Microondas</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="mixer.webp">
+    <h3>Mixer</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="Porta talheres.webp">
+    <h3>Porta Talheres</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="portasabonete.webp">
+    <h3>Porta Sabonete</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="potefrios.webp">
+    <h3>Pote para Frios</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="potehermetrico.webp">
+    <h3>Pote Hermetico</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="Pratos.webp">
+    <h3>Jogo de Pratos</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="purificadordeagua.webp">
+    <h3>Purificador de Agua</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="toalhademesa.webp">
+    <h3>Toalha de Mesa</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="toalharosto.webp">
+    <h3>Toalha de Rosto</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="torradeira.webp">
+    <h3>Torradeira/Grill</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="varaldechao.jpg">
+    <h3>Varal de Chão</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="vasodecorativo.webp">
+    <h3>Vaso Decorativo</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+
+
 </div>
 
+<!-- Modal Nome -->
 <div class="overlay" id="confirmOverlay">
   <div class="confirm-box">
     <h2>Confirmar Reserva</h2>
     <p>Digite seu nome para reservar:</p>
     <input type="text" id="nomeInput" placeholder="Seu nome">
     <div class="botoes">
-      <button class="cancelar" id="cancelBtn">Cancelar</button>
-      <button class="confirmar" id="confirmBtn">Confirmar</button>
+      <button class="cancelar" onclick="fecharModal()">Cancelar</button>
+      <button class="confirmar" onclick="confirmarReserva()">Confirmar</button>
     </div>
   </div>
 </div>
 
+<!-- Popup Caricatura -->
 <div class="caricatura-overlay" id="caricaturaOverlay">
   <div class="caricatura-box">
     <img src="caricatura.png">
@@ -68,6 +555,7 @@ button:hover { opacity:0.9; }
   </div>
 </div>
 
+<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const supabase = window.supabase.createClient(
@@ -75,90 +563,81 @@ const supabase = window.supabase.createClient(
   "sb_publishable_YWmcJUQoL9OnB-ylEzOy6w_pE5rEMrL"
 );
 
-let itemSelecionado = null;
 let botaoSelecionado = null;
+let itemSelecionado = "";
 
-// Função para criar os itens na página
-async function carregarItens() {
-  const { data: reservas } = await supabase.from('reservas').select('*').order('id');
-
-  const container = document.getElementById('itensContainer');
-  container.innerHTML = '';
-
-  reservas.forEach(reserva => {
-    const box = document.createElement('div');
-    box.className = 'item-box';
-
-    const img = document.createElement('img');
-    // Troque a fonte da imagem conforme seu arquivo
-    img.src = reserva.item.replace(/\s/g,'').toLowerCase() + '.webp'; 
-
-    const titulo = document.createElement('h3');
-    titulo.innerText = reserva.item;
-
-    const botao = document.createElement('button');
-    if(reserva.nome){
-      botao.disabled = true;
-      botao.innerText = 'Reservado por ' + reserva.nome;
-      botao.style.background = '#777';
-      botao.style.cursor = 'not-allowed';
-    } else {
-      botao.innerText = 'Reservar';
-      botao.addEventListener('click', () => abrirModal(reserva.item, botao));
-      botao.addEventListener('touchstart', () => abrirModal(reserva.item, botao));
-    }
-
-    box.appendChild(img);
-    box.appendChild(titulo);
-    box.appendChild(botao);
-    container.appendChild(box);
-  });
-}
-
-// Abrir modal
-function abrirModal(item, botao){
-  itemSelecionado = item;
+/* Ao clicar em reservar */
+function reservar(botao) {
   botaoSelecionado = botao;
-  document.getElementById('confirmOverlay').style.display = 'flex';
+  itemSelecionado = botao.parentElement.querySelector("h3").innerText;
+  document.getElementById("confirmOverlay").style.display = "flex";
 }
 
-// Fechar modal
-document.getElementById('cancelBtn').addEventListener('click', ()=>{
-  document.getElementById('confirmOverlay').style.display = 'none';
-  document.getElementById('nomeInput').value = '';
-});
+function fecharModal() {
+  document.getElementById("confirmOverlay").style.display = "none";
+  document.getElementById("nomeInput").value = "";
+}
 
-// Confirmar reserva
-document.getElementById('confirmBtn').addEventListener('click', async ()=>{
-  const nome = document.getElementById('nomeInput').value.trim();
-  if(!nome) { alert('Digite seu nome'); return; }
+/* Confirmar reserva e salvar no banco */
+async function confirmarReserva() {
+  const nome = document.getElementById("nomeInput").value.trim();
 
-  const { data, error } = await supabase.from('reservas').select('*').eq('item', itemSelecionado).single();
-  if(data && data.nome){ alert('Este item já foi reservado'); fecharModal(); return; }
+  if (nome === "") {
+    alert("Digite seu nome.");
+    return;
+  }
 
-  const { error: updateError } = await supabase.from('reservas').update({nome}).eq('item', itemSelecionado);
-  if(updateError){ alert('Erro ao reservar'); fecharModal(); return; }
+  const { error } = await supabase
+    .from("reservas")
+    .insert([{ item: itemSelecionado, nome: nome }]);
+
+  if (error) {
+    alert("Este item já foi reservado por outra pessoa!");
+    fecharModal();
+    return;
+  }
 
   botaoSelecionado.disabled = true;
-  botaoSelecionado.innerText = 'Reservado por ' + nome;
-  botaoSelecionado.style.background = '#777';
-  botaoSelecionado.style.cursor = 'not-allowed';
+  botaoSelecionado.innerText = "Reservado por " + nome;
+  botaoSelecionado.style.background = "#777";
+  botaoSelecionado.style.cursor = "not-allowed";
 
-  document.getElementById('confirmOverlay').style.display = 'none';
-  document.getElementById('nomeInput').value = '';
+  fecharModal();
 
-  const overlay = document.getElementById('caricaturaOverlay');
-  overlay.style.display = 'flex';
-  setTimeout(()=> overlay.style.display='none', 2000);
-});
+  const overlay = document.getElementById("caricaturaOverlay");
+  overlay.style.display = "flex";
 
-function fecharModal(){
-  document.getElementById('confirmOverlay').style.display = 'none';
-  document.getElementById('nomeInput').value = '';
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 2000);
 }
 
-// Inicializa
-carregarItens();
+/* 🔥 Carregar reservas ao abrir o site */
+async function carregarReservas() {
+  const { data } = await supabase
+    .from("reservas")
+    .select("*");
+
+  if (data) {
+    data.forEach(reserva => {
+      const itens = document.querySelectorAll(".item-box");
+
+      itens.forEach(box => {
+        const titulo = box.querySelector("h3").innerText;
+        const botao = box.querySelector("button");
+
+        if (titulo === reserva.item) {
+          botao.disabled = true;
+          botao.innerText = "Reservado por " + reserva.nome;
+          botao.style.background = "#777";
+          botao.style.cursor = "not-allowed";
+        }
+      });
+    });
+  }
+}
+
+carregarReservas();
 </script>
 
 </body>
