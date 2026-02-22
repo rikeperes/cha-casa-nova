@@ -15,18 +15,10 @@ body {
 }
 
 /* Banner */
-.banner {
-  padding: 10px 0;
-}
+.banner { padding: 10px 0; }
+.banner img { width: 100%; max-width: 900px; height: auto; border-radius: 12px; }
 
-.banner img {
-  width: 100%;
-  max-width: 900px;
-  height: auto;
-  border-radius: 12px;
-}
-
-/* Container padrão (PC) */
+/* Container */
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -38,7 +30,7 @@ body {
 
 /* Item box */
 .item-box {
-  background: #ffffff;
+  background: #fff;
   width: 85%;
   padding: 1px;
   border-radius: 12px;
@@ -49,24 +41,9 @@ body {
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
   justify-self: end;
 }
-
-.item-box:hover {
-  transform: translateY(-5px);
-}
-
-.item-box img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.item-box h3 {
-  margin: 15px 0;
-  font-size: 20px;
-  color: #333;
-  font-weight: 600;
-}
+.item-box:hover { transform: translateY(-5px); }
+.item-box img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
+.item-box h3 { margin: 15px 0; font-size: 20px; color: #333; font-weight: 600; }
 
 button {
   width: 100%;
@@ -79,25 +56,16 @@ button {
   transition: 0.2s;
   border-radius: 8px;
 }
+button:hover { opacity: 0.9; }
 
-button:hover {
-  opacity: 0.9;
-}
-
-/* MODAL NOME */
+/* MODAL */
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.45);
-  display: none;
-  justify-content: center;
-  align-items: center;
+  display: none; justify-content: center; align-items: center;
   z-index: 9999;
 }
-
 .confirm-box {
   background: white;
   padding: 30px;
@@ -107,128 +75,52 @@ button:hover {
   text-align: center;
   animation: aparecer 0.25s ease;
 }
-
 .confirm-box input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
+  width: 100%; padding: 10px; margin-top: 15px;
+  border: 1px solid #ddd; border-radius: 8px; font-size: 16px;
 }
-
-.botoes {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-}
-
-.cancelar {
-  background: #ccc;
-  color: #333;
-}
-
-.confirmar {
-  background: linear-gradient(45deg, #ff4d6d, #ff758f);
-}
+.botoes { margin-top: 20px; display: flex; gap: 10px; }
+.cancelar { background: #ccc; color: #333; }
+.confirmar { background: linear-gradient(45deg, #ff4d6d, #ff758f); }
 
 /* POPUP CARICATURA */
 .caricatura-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.4);
-  display: none;
-  justify-content: center;
-  align-items: center;
+  display: none; justify-content: center; align-items: center;
   z-index: 9998;
 }
-
 .caricatura-box {
-  background: white;
-  padding: 20px;
-  border-radius: 20px;
-  text-align: center;
-  max-width: 90%;
-  max-height: 90vh;
-  overflow: auto;
+  background: white; padding: 20px; border-radius: 20px;
+  text-align: center; max-width: 90%; max-height: 90vh; overflow: auto;
 }
+.caricatura-box img { width: 100%; max-width: 220px; height: auto; }
+.success-msg { margin-top: 15px; background: #28a745; color: white; padding: 10px; border-radius: 10px; font-weight: bold; }
 
-.caricatura-box img {
-  width: 100%;
-  max-width: 220px;
-  height: auto;
-}
-
-.success-msg {
-  margin-top: 15px;
-  background: #28a745;
-  color: white;
-  padding: 10px;
-  border-radius: 10px;
-  font-weight: bold;
-}
-
-@keyframes aparecer {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
+@keyframes aparecer { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 /* RESPONSIVO CELULAR */
 @media (max-width: 600px) {
-  .banner img {
-    max-width: 90%;
-  }
-  .container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding: 20px;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  .item-box {
-    padding: 12px;
-  }
-  .item-box img {
-    height: 110px;
-  }
-  .item-box h3 {
-    font-size: 15px;
-  }
-  button {
-    padding: 8px;
-    font-size: 13px;
-  }
+  .banner img { max-width: 90%; }
+  .container { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; max-width: 500px; margin: 0 auto; }
+  .item-box { padding: 12px; }
+  .item-box img { height: 110px; }
+  .item-box h3 { font-size: 15px; }
+  button { padding: 8px; font-size: 13px; }
 }
 </style>
 </head>
-
 <body>
 
-<div class="banner">
-  <img src="henrique.png" alt="Chá de Casa Nova">
-</div>
+<div class="banner"><img src="henrique.png" alt="Chá de Casa Nova"></div>
 
 <div class="container" id="itensContainer">
-  <!-- TODOS OS ITENS -->
-  <div class="item-box">
-    <img src="airfryeer.jpg">
-    <h3>Air Fryer</h3>
-    <button onclick="reservar(this)" ontouchstart="reservar(this)">Reservar</button>
-  </div>
-  <div class="item-box">
-    <img src="jogodepanela.webp">
-    <h3>Jogo de Panelas</h3>
-    <button onclick="reservar(this)" ontouchstart="reservar(this)">Reservar</button>
-  </div>
-  <div class="item-box">
-    <img src="batedeira.webp">
-    <h3>Batedeira</h3>
-    <button onclick="reservar(this)" ontouchstart="reservar(this)">Reservar</button>
-  </div>
-  <!-- ADICIONE TODOS OS OUTROS ITENS AQUI COM MESMO PADRÃO -->
+  <!-- EXEMPLOS DE ITENS -->
+  <div class="item-box"><img src="airfryeer.jpg"><h3>Air Fryer</h3><button>Reservar</button></div>
+  <div class="item-box"><img src="jogodepanela.webp"><h3>Jogo de Panelas</h3><button>Reservar</button></div>
+  <div class="item-box"><img src="batedeira.webp"><h3>Batedeira</h3><button>Reservar</button></div>
+  <div class="item-box"><img src="jogodetaças.webp"><h3>Jogo de Taças</h3><button>Reservar</button></div>
+  <!-- ADICIONE TODOS OS OUTROS ITENS COM MESMO PADRÃO -->
 </div>
 
 <!-- Modal Nome -->
@@ -238,8 +130,8 @@ button:hover {
     <p>Digite seu nome para reservar:</p>
     <input type="text" id="nomeInput" placeholder="Seu nome">
     <div class="botoes">
-      <button class="cancelar" onclick="fecharModal()">Cancelar</button>
-      <button class="confirmar" onclick="confirmarReserva()">Confirmar</button>
+      <button class="cancelar" id="cancelBtn">Cancelar</button>
+      <button class="confirmar" id="confirmBtn">Confirmar</button>
     </div>
   </div>
 </div>
@@ -261,82 +153,84 @@ const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 let botaoSelecionado = null;
 
-function reservar(botao) {
+// Abrir modal
+function abrirModal(botao) {
   botaoSelecionado = botao;
   document.getElementById("confirmOverlay").style.display = "flex";
 }
 
+// Fechar modal
 function fecharModal() {
   document.getElementById("confirmOverlay").style.display = "none";
   document.getElementById("nomeInput").value = "";
 }
 
+// Confirmar reserva
 async function confirmarReserva() {
   const nome = document.getElementById("nomeInput").value.trim();
   if (!nome) { alert("Digite seu nome!"); return; }
-
   const itemNome = botaoSelecionado.parentElement.querySelector("h3").innerText;
 
-  // Verifica se já foi reservado
-  const { data, error } = await supabase
-    .from("reservas")
-    .select("nome_reservou")
-    .eq("item", itemNome)
-    .single();
-
+  // Checa se já foi reservado
+  const { data, error } = await supabase.from("reservas").select("nome_reservou").eq("item", itemNome).single();
   if (error) { console.error(error); alert("Erro ao verificar reserva."); return; }
-
-  if (data && data.nome_reservou) {
+  if (data && data.nome_reservou) { 
     alert("Este item já foi reservado!");
-    botaoSelecionado.disabled = true;
-    botaoSelecionado.innerText = "Reservado";
-    botaoSelecionado.style.background = "#777";
-    botaoSelecionado.style.cursor = "not-allowed";
-    fecharModal();
+    marcarComoReservado(botaoSelecionado);
+    fecharModal(); 
     return;
   }
 
   // Atualiza como reservado
-  const { error: updateError } = await supabase
-    .from("reservas")
-    .update({ nome_reservou: nome })
-    .eq("item", itemNome);
-
+  const { error: updateError } = await supabase.from("reservas").update({ nome_reservou: nome }).eq("item", itemNome);
   if (updateError) { console.error(updateError); alert("Erro ao reservar."); return; }
 
-  botaoSelecionado.disabled = true;
-  botaoSelecionado.innerText = "Reservado";
-  botaoSelecionado.style.background = "#777";
-  botaoSelecionado.style.cursor = "not-allowed";
+  marcarComoReservado(botaoSelecionado);
   fecharModal();
-
   const overlay = document.getElementById("caricaturaOverlay");
   overlay.style.display = "flex";
   setTimeout(() => { overlay.style.display = "none"; }, 2000);
 }
 
-// Atualiza itens reservados ao carregar
+// Marca botão como reservado
+function marcarComoReservado(botao) {
+  botao.disabled = true;
+  botao.innerText = "Reservado";
+  botao.style.background = "#777";
+  botao.style.cursor = "not-allowed";
+}
+
+// Inicializa listeners nos botões
+function inicializarBotoes() {
+  const botoes = document.querySelectorAll(".item-box button");
+  botoes.forEach(btn => {
+    btn.addEventListener("click", () => abrirModal(btn));
+    btn.addEventListener("touchstart", () => abrirModal(btn));
+  });
+}
+
+// Carrega reservas ao iniciar
 async function carregarReservas() {
   const { data, error } = await supabase.from("reservas").select("*");
   if (error) { console.error(error); return; }
 
   data.forEach(reserva => {
-    const itens = document.querySelectorAll(".item-box");
-    itens.forEach(box => {
+    document.querySelectorAll(".item-box").forEach(box => {
       const nomeItem = box.querySelector("h3").innerText;
       if (nomeItem === reserva.item && reserva.nome_reservou) {
-        const botao = box.querySelector("button");
-        botao.disabled = true;
-        botao.innerText = "Reservado";
-        botao.style.background = "#777";
-        botao.style.cursor = "not-allowed";
+        marcarComoReservado(box.querySelector("button"));
       }
     });
   });
 }
 
-window.onload = carregarReservas;
-</script>
+document.getElementById("cancelBtn").addEventListener("click", fecharModal);
+document.getElementById("confirmBtn").addEventListener("click", confirmarReserva);
 
+window.onload = () => {
+  inicializarBotoes();
+  carregarReservas();
+};
+</script>
 </body>
 </html>
