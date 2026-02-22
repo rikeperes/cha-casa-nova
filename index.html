@@ -4,29 +4,203 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lista do Chá de Casa Nova</title>
+
 <style>
-body { margin:0; font-family:'Segoe UI',sans-serif; background:#c0c0c0; text-align:center; overflow-x:hidden; }
-.banner { padding:10px 0; }
-.banner img { width:100%; max-width:900px; height:auto; border-radius:12px; }
-.container { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:20px; padding:40px 20px; max-width:900px; margin:0 auto; }
-.item-box { background:#fff; width:85%; padding:1px; border-radius:12px; display:flex; flex-direction:column; align-items:center; transition:.3s ease; box-shadow:0 3px 8px rgba(0,0,0,.08); justify-self:end; }
-.item-box:hover { transform:translateY(-5px); }
-.item-box img { width:100%; height:200px; object-fit:cover; border-radius:8px; }
-.item-box h3 { margin:15px 0; font-size:20px; color:#333; font-weight:600; }
-button { width:100%; background:linear-gradient(45deg,#ff4d6d,#ff758f); border:none; color:white; padding:12px; font-weight:bold; cursor:pointer; transition:.2s; border-radius:8px; }
-button:hover { opacity:.9; }
-.overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.45); display:none; justify-content:center; align-items:center; z-index:9999; }
-.confirm-box { background:white; padding:30px; width:320px; border-radius:14px; box-shadow:0 20px 40px rgba(0,0,0,.25); text-align:center; animation:aparecer .25s ease; }
-.confirm-box input { width:100%; padding:10px; margin-top:15px; border:1px solid #ddd; border-radius:8px; font-size:16px; }
-.botoes { margin-top:20px; display:flex; gap:10px; }
-.cancelar { background:#ccc; color:#333; }
-.confirmar { background:linear-gradient(45deg,#ff4d6d,#ff758f); }
-.caricatura-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.4); display:none; justify-content:center; align-items:center; z-index:9998; }
-.caricatura-box { background:white; padding:20px; border-radius:20px; text-align:center; max-width:90%; max-height:90vh; overflow:auto; }
-.caricatura-box img { width:100%; max-width:220px; height:auto; }
-.success-msg { margin-top:15px; background:#28a745; color:white; padding:10px; border-radius:10px; font-weight:bold; }
-@keyframes aparecer { from {transform:scale(0.8); opacity:0;} to {transform:scale(1); opacity:1;} }
-@media (max-width:600px) { .banner img { max-width:90%; } .container { grid-template-columns:repeat(2,1fr); gap:15px; padding:20px; max-width:500px; margin:0 auto; } .item-box { padding:12px; } .item-box img { height:110px; } .item-box h3 { font-size:15px; } button { padding:8px; font-size:13px; } }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #c0c0c0;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+.banner {
+  padding: 10px 0;
+}
+
+.banner img {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  border-radius: 12px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.item-box {
+  background: #ffffff;
+  width: 85%;
+  padding: 1px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  justify-self: end;
+}
+
+.item-box:hover {
+  transform: translateY(-5px);
+}
+
+.item-box img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-box h3 {
+  margin: 15px 0;
+  font-size: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+button {
+  width: 100%;
+  background: linear-gradient(45deg, #ff4d6d, #ff758f);
+  border: none;
+  color: white;
+  padding: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  border-radius: 8px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.confirm-box {
+  background: white;
+  padding: 30px;
+  width: 320px;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  text-align: center;
+  animation: aparecer 0.25s ease;
+}
+
+.confirm-box input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.botoes {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.cancelar {
+  background: #ccc;
+  color: #333;
+}
+
+.confirmar {
+  background: linear-gradient(45deg, #ff4d6d, #ff758f);
+}
+
+.caricatura-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+}
+
+.caricatura-box {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.caricatura-box img {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+}
+
+.success-msg {
+  margin-top: 15px;
+  background: #28a745;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+@keyframes aparecer {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .banner img {
+    max-width: 90%;
+  }
+
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .item-box {
+    padding: 12px;
+  }
+
+  .item-box img {
+    height: 110px;
+  }
+
+  .item-box h3 {
+    font-size: 15px;
+  }
+
+  button {
+    padding: 8px;
+    font-size: 13px;
+  }
+}
 </style>
 </head>
 <body>
@@ -35,11 +209,30 @@ button:hover { opacity:.9; }
   <img src="henrique.png" alt="Chá de Casa Nova">
 </div>
 
-<div class="container" id="container">
-  <!-- os itens vão ser carregados pelo JS -->
+<div class="container">
+  <!-- Mantenha todos os seus itens originais do HTML -->
+  <div class="item-box">
+    <img src="airfryeer.jpg">
+    <h3>Air Fryer</h3>
+    <button onclick="reservar(this)" ontouchstart="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="jogodepanela.webp">
+    <h3>Jogo de Panelas</h3>
+    <button onclick="reservar(this)" ontouchstart="reservar(this)">Reservar</button>
+  </div>
+
+  <div class="item-box">
+    <img src="batedeira.webp">
+    <h3>Batedeira</h3>
+    <button onclick="reservar(this)" ontouchstart="reservar(this)">Reservar</button>
+  </div>
+
+  <!-- Continue incluindo todos os outros itens do seu HTML original -->
+  <!-- ... -->
 </div>
 
-<!-- Modal Nome -->
 <div class="overlay" id="confirmOverlay">
   <div class="confirm-box">
     <h2>Confirmar Reserva</h2>
@@ -52,7 +245,6 @@ button:hover { opacity:.9; }
   </div>
 </div>
 
-<!-- Popup Caricatura -->
 <div class="caricatura-overlay" id="caricaturaOverlay">
   <div class="caricatura-box">
     <img src="caricatura.png">
@@ -71,36 +263,10 @@ const supabase = window.supabase.createClient(
 let botaoSelecionado = null;
 let itemSelecionado = "";
 
-async function carregarItens() {
-  const { data, error } = await supabase.from("reservas").select("*");
-  const container = document.getElementById("container");
-  if (!data) return;
-
-  container.innerHTML = ""; // limpa container
-
-  data.forEach(reserva => {
-    const div = document.createElement("div");
-    div.className = "item-box";
-    div.innerHTML = `
-      <img src="${reserva.item.toLowerCase().replace(/ /g,'')}.webp" onerror="this.src='default.png'">
-      <h3>${reserva.item}</h3>
-      <button ${reserva.nome ? 'disabled style="background:#777;cursor:not-allowed;"' : ''}>
-        ${reserva.nome ? 'Reservado por ' + reserva.nome : 'Reservar'}
-      </button>
-    `;
-    container.appendChild(div);
-
-    const botao = div.querySelector("button");
-    if (!reserva.nome) {
-      botao.addEventListener("click", () => reservar(botao, reserva.item));
-      botao.addEventListener("touchstart", () => reservar(botao, reserva.item));
-    }
-  });
-}
-
-function reservar(botao, item) {
+// Ao clicar em reservar
+function reservar(botao) {
   botaoSelecionado = botao;
-  itemSelecionado = item;
+  itemSelecionado = botao.parentElement.querySelector("h3").innerText;
   document.getElementById("confirmOverlay").style.display = "flex";
 }
 
@@ -109,20 +275,34 @@ function fecharModal() {
   document.getElementById("nomeInput").value = "";
 }
 
+// Confirmar reserva e salvar no Supabase
 async function confirmarReserva() {
   const nome = document.getElementById("nomeInput").value.trim();
-  if (!nome) { alert("Digite seu nome."); return; }
 
-  // Atualiza apenas se ainda estiver NULL
+  if (!nome) {
+    alert("Digite seu nome.");
+    return;
+  }
+
   const { data, error } = await supabase
     .from("reservas")
-    .update({ nome: nome })
+    .select("*")
     .eq("item", itemSelecionado)
-    .is("nome", null)
-    .select();
+    .single();
 
-  if (error || data.length === 0) {
+  if (data && data.nome) {
     alert("Este item já foi reservado!");
+    fecharModal();
+    return;
+  }
+
+  const { error: insertError } = await supabase
+    .from("reservas")
+    .update({ nome })
+    .eq("item", itemSelecionado);
+
+  if (insertError) {
+    alert("Erro ao reservar o item.");
     fecharModal();
     return;
   }
@@ -136,10 +316,32 @@ async function confirmarReserva() {
 
   const overlay = document.getElementById("caricaturaOverlay");
   overlay.style.display = "flex";
-  setTimeout(() => overlay.style.display = "none", 2000);
+  setTimeout(() => { overlay.style.display = "none"; }, 2000);
 }
 
-carregarItens();
+// Carregar reservas do Supabase ao abrir o site
+async function carregarReservas() {
+  const { data } = await supabase.from("reservas").select("*");
+
+  if (data) {
+    const itens = document.querySelectorAll(".item-box");
+    data.forEach(reserva => {
+      itens.forEach(box => {
+        const titulo = box.querySelector("h3").innerText;
+        const botao = box.querySelector("button");
+
+        if (titulo === reserva.item && reserva.nome) {
+          botao.disabled = true;
+          botao.innerText = "Reservado por " + reserva.nome;
+          botao.style.background = "#777";
+          botao.style.cursor = "not-allowed";
+        }
+      });
+    });
+  }
+}
+
+carregarReservas();
 </script>
 
 </body>
