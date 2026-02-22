@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lista do Chá de Casa Nova</title>
 
+<!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 body {
   margin: 0;
@@ -14,11 +17,9 @@ body {
   overflow-x: hidden;
 }
 
-/* Banner */
 .banner {
   padding: 10px 0;
 }
-
 .banner img {
   width: 100%;
   max-width: 900px;
@@ -26,133 +27,87 @@ body {
   border-radius: 12px;
 }
 
-/* Container padrão (PC) */
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 20px;
-  padding: 40px 20px;
+  gap: 15px;
+  padding: 20px;
   max-width: 900px;
   margin: 0 auto;
 }
 
-/* Item box */
 .item-box {
-  background: #ffffff;
-  width: 85%;
-  padding: 1px;
+  background: #fff;
+  padding: 10px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: 0.3s ease;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-  justify-self: end;
+  transition: 0.3s ease;
 }
-
-.item-box:hover {
-  transform: translateY(-5px);
-}
-
 .item-box img {
   width: 100%;
-  height: 200px;
+  height: 150px;
   object-fit: cover;
   border-radius: 8px;
 }
-
 .item-box h3 {
-  margin: 15px 0;
-  font-size: 20px;
+  margin: 10px 0;
+  font-size: 16px;
   color: #333;
   font-weight: 600;
+  text-align: center;
 }
-
 button {
   width: 100%;
   background: linear-gradient(45deg, #ff4d6d, #ff758f);
   border: none;
   color: white;
-  padding: 12px;
+  padding: 8px;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.2s;
   border-radius: 8px;
+  transition: 0.2s;
 }
-
 button:hover {
   opacity: 0.9;
 }
 
-/* MODAL NOME */
-.overlay {
+/* MODAL */
+.overlay, .caricatura-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.45);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   display: none;
   justify-content: center;
   align-items: center;
+  background: rgba(0,0,0,0.45);
 }
 
-.confirm-box {
+.confirm-box, .caricatura-box {
   background: white;
-  padding: 30px;
-  width: 320px;
+  padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
   text-align: center;
-  animation: aparecer 0.25s ease;
+  max-width: 90%;
 }
 
 .confirm-box input {
   width: 100%;
   padding: 10px;
-  margin-top: 15px;
-  border: 1px solid #ddd;
+  margin-top: 10px;
   border-radius: 8px;
+  border: 1px solid #ddd;
   font-size: 16px;
 }
-
 .botoes {
-  margin-top: 20px;
+  margin-top: 15px;
   display: flex;
   gap: 10px;
 }
-
-.cancelar {
-  background: #ccc;
-  color: #333;
-}
-
-.confirmar {
-  background: linear-gradient(45deg, #ff4d6d, #ff758f);
-}
-
-/* POPUP CARICATURA */
-.caricatura-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.caricatura-box {
-  background: white;
-  padding: 20px;
-  border-radius: 20px;
-  text-align: center;
-  max-width: 90%;
-  max-height: 90vh;
-  overflow: auto;
-}
+.cancelar { background: #ccc; color: #333; }
+.confirmar { background: linear-gradient(45deg, #ff4d6d, #ff758f); }
 
 .caricatura-box img {
   width: 100%;
@@ -160,37 +115,22 @@ button:hover {
   height: auto;
 }
 .success-msg {
-  margin-top: 15px;
+  margin-top: 10px;
   background: #28a745;
   color: white;
-  padding: 10px;
+  padding: 8px;
   border-radius: 10px;
   font-weight: bold;
 }
 
-@keyframes aparecer {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-/* RESPONSIVO CELULAR */
-@media (max-width: 600px) {
-  .banner img { max-width: 90%; }
-  .container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding: 20px;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  .item-box { padding: 12px; }
-  .item-box img { height: 110px; }
-  .item-box h3 { font-size: 15px; }
-  button { padding: 8px; font-size: 13px; }
+@media (max-width:600px){
+  .container { grid-template-columns: repeat(2, 1fr); gap:10px; padding:10px; }
+  .item-box img { height:100px; }
+  .item-box h3 { font-size:14px; }
+  button { padding:6px; font-size:12px; }
 }
 </style>
 </head>
-
 <body>
 
 <div class="banner">
@@ -198,10 +138,10 @@ button:hover {
 </div>
 
 <div class="container" id="itensContainer">
-  <!-- TODOS OS ITENS ORIGINAIS DO SEU HTML VÃO AQUI -->
+  <!-- TODOS os itens serão carregados via JS -->
 </div>
 
-<!-- Modal Nome -->
+<!-- Modal -->
 <div class="overlay" id="confirmOverlay">
   <div class="confirm-box">
     <h2>Confirmar Reserva</h2>
@@ -214,7 +154,7 @@ button:hover {
   </div>
 </div>
 
-<!-- Popup Caricatura -->
+<!-- Caricatura -->
 <div class="caricatura-overlay" id="caricaturaOverlay">
   <div class="caricatura-box">
     <img src="caricatura.png">
@@ -222,77 +162,97 @@ button:hover {
   </div>
 </div>
 
-<!-- Supabase JS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-const SUPABASE_URL = 'https://SEU_SUPABASE_URL.supabase.co';
-const SUPABASE_ANON_KEY = 'SUA_SUPABASE_ANON_KEY';
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseUrl = 'COLE_AQUI_SUA_URL';
+const supabaseKey = 'COLE_AQUI_SUA_ANON_KEY';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-let botaoSelecionado = null;
-let itemSelecionadoId = null;
-
-// Todos os itens originais
 const itens = [
-  {id:1, nome:"Air Fryer", img:"airfryeer.jpg"},
-  {id:2, nome:"Jogo de Panelas", img:"jogodepanela.webp"},
-  {id:3, nome:"Batedeira", img:"batedeira.webp"},
-  {id:4, nome:"Jogo de Taças", img:"jogodetaças.webp"},
-  {id:5, nome:"Jogo de Talheres", img:"jogodetalheres.webp"},
-  {id:6, nome:"Jogo de Cama", img:"jogodecama.webp"},
-  {id:7, nome:"Toalha", img:"toalha.webp"},
-  {id:8, nome:"Cesto de Roupas", img:"cestoderoupa.webp"},
-  {id:9, nome:"Pano de Prato", img:"panosdeprato.webp"},
-  {id:10, nome:"Cesto de Lixo", img:"cestodelixo.jpg"},
-  // continue todos os itens restantes aqui, com id, nome e img
+  {nome:"Air Fryer", img:"airfryeer.jpg"},
+  {nome:"Jogo de Panelas", img:"jogodepanela.webp"},
+  {nome:"Batedeira", img:"batedeira.webp"},
+  {nome:"Jogo de Taças", img:"jogodetaças.webp"},
+  {nome:"Jogo de Talheres", img:"jogodetalheres.webp"},
+  {nome:"Jogo de Cama", img:"jogodecama.webp"},
+  {nome:"Toalha", img:"toalha.webp"},
+  {nome:"Cesto de Roupas", img:"cestoderoupa.webp"},
+  {nome:"Pano de Prato", img:"panosdeprato.webp"},
+  {nome:"Cesto de Lixo", img:"cestodelixo.jpg"},
+  {nome:"Afiador de Faca", img:"afiadordefaca.jpg"},
+  {nome:"Aspirador de Pó", img:"aspiradordepo.webp"},
+  {nome:"Assadeira", img:"Assadeira.webp"},
+  {nome:"Assadeira de Vidro", img:"assadeiradevidro.webp"},
+  {nome:"Boleira", img:"boleira.webp"},
+  {nome:"Cadeira de Praia", img:"cadeiradepraia.webp"},
+  {nome:"Cafeteira", img:"cafeteira.jpg"},
+  {nome:"Chaleira de Indução", img:"chaleirainduçao.jpg"},
+  {nome:"Colher de Silicone", img:"Colher de silicone.jfif"},
+  {nome:"Copo Medidor", img:"copomedidor.webp"},
+  {nome:"Jogo de Copos", img:"coposvidro.webp"},
+  {nome:"Escorredor de Macarrão", img:"escorredordemacarrao.jpg"},
+  {nome:"Escova para Vaso Sanaitário", img:"escovaparavasosanitario.webp"},
+  {nome:"Espetos", img:"espetos.webp"},
+  {nome:"Esteira Porta Copos de sofá", img:"esteiraportacoposofa.jpg"},
+  {nome:"Ferro de Passar", img:"ferrodepassar.webp"},
+  {nome:"Forma para Pão", img:"formadepao.jfif"},
+  {nome:"Forma Pudim", img:"formadepudim.webp"},
+  {nome:"Forma Redonda", img:"formaredonda.jpg"},
+  {nome:"Frigideira", img:"frigideira.webp"},
+  {nome:"Fue", img:"fue.webp"},
+  {nome:"Garrafa Termica", img:"garrafatermica.jpg"},
+  {nome:"Jarra de Vidro", img:"jarradevidro.jpg"},
+  {nome:"Jogo de Facas", img:"Jogo de facas.jfif"},
+  {nome:"Jogo para Sobremesa", img:"jogodesobremesa.png"},
+  {nome:"Kit de silicone p/Cozinha", img:"kit silicone cozinha.webp"},
+  {nome:"Kit Xicara", img:"kitchicara.webp"},
+  {nome:"Kit Lençol", img:"kitlençol.jpg"},
+  {nome:"Kit para Churrasco", img:"kitparachurasco.webp"},
+  {nome:"Microondas", img:"Microondas.webp"},
+  {nome:"Mixer", img:"mixer.webp"},
+  {nome:"Porta Talheres", img:"Porta talheres.webp"},
+  {nome:"Porta Sabonete", img:"portasabonete.webp"},
+  {nome:"Pote para Frios", img:"potefrios.webp"},
+  {nome:"Pote Hermetico", img:"potehermetrico.webp"},
+  {nome:"Jogo de Pratos", img:"Pratos.webp"},
+  {nome:"Purificador de Agua", img:"purificadordeagua.webp"},
+  {nome:"Toalha de Mesa", img:"toalhademesa.webp"},
+  {nome:"Toalha de Rosto", img:"toalharosto.webp"},
+  {nome:"Torradeira/Grill", img:"torradeira.webp"},
+  {nome:"Varal de Chão", img:"varaldechao.jpg"},
+  {nome:"Vaso Decorativo", img:"vasodecorativo.webp"}
 ];
 
-// Carregar itens na página
+// Renderizar itens e atualizar status do Supabase
 async function carregarItens() {
-  const { data: reservas } = await supabase.from('reservas').select('*');
   const container = document.getElementById('itensContainer');
   container.innerHTML = '';
+  
+  const {data: reservas} = await supabase
+    .from('reservas')
+    .select('*');
 
   itens.forEach(item => {
-    const jaReservado = reservas.find(r => r.item_id === item.id);
-    const box = document.createElement('div');
-    box.className = 'item-box';
-    box.innerHTML = `
+    const reservado = reservas.some(r => r.item === item.nome);
+    const div = document.createElement('div');
+    div.className = 'item-box';
+    div.innerHTML = `
       <img src="${item.img}">
       <h3>${item.nome}</h3>
-      <button ${jaReservado ? 'disabled style="background:#777;cursor:not-allowed;"' : ''}>
-        ${jaReservado ? `Reservado por ${jaReservado.nome}` : 'Reservar'}
+      <button ${reservado ? 'disabled style="background:#777;cursor:not-allowed"' : ''} onclick="reservar(this,'${item.nome}')">
+        ${reservado ? 'Reservado' : 'Reservar'}
       </button>
     `;
-    container.appendChild(box);
-
-    if(!jaReservado){
-      box.querySelector('button').addEventListener('click', () => {
-        botaoSelecionado = box.querySelector('button');
-        itemSelecionadoId = item.id;
-        document.getElementById("confirmOverlay").style.display = "flex";
-      });
-    }
+    container.appendChild(div);
   });
 }
 
-async function confirmarReserva() {
-  const nome = document.getElementById("nomeInput").value.trim();
-  if(nome === "") return alert("Digite seu nome");
+let botaoSelecionado = null;
+let itemSelecionado = null;
 
-  const { error } = await supabase.from('reservas').insert([{ item_id: itemSelecionadoId, nome }]);
-  if(error) return alert("Erro ao reservar: "+error.message);
-
-  document.getElementById("confirmOverlay").style.display = "none";
-  document.getElementById("nomeInput").value = "";
-
-  const overlay = document.getElementById("caricaturaOverlay");
-  overlay.style.display = "flex";
-  setTimeout(()=> overlay.style.display="none", 2000);
-
-  // Recarrega os itens para atualizar status
-  carregarItens();
+function reservar(botao, itemNome) {
+  botaoSelecionado = botao;
+  itemSelecionado = itemNome;
+  document.getElementById("confirmOverlay").style.display = "flex";
 }
 
 function fecharModal() {
@@ -300,9 +260,28 @@ function fecharModal() {
   document.getElementById("nomeInput").value = "";
 }
 
-// Inicializa
+async function confirmarReserva() {
+  const nome = document.getElementById("nomeInput").value.trim();
+  if(!nome){ alert('Digite seu nome'); return; }
+
+  const {error} = await supabase
+    .from('reservas')
+    .insert([{item:itemSelecionado, nome: nome}]);
+
+  if(error){
+    alert('Erro ao reservar, tente novamente.');
+    return;
+  }
+
+  fecharModal();
+  document.getElementById('caricaturaOverlay').style.display = 'flex';
+  setTimeout(()=>document.getElementById('caricaturaOverlay').style.display='none',2000);
+
+  carregarItens(); // atualiza a tela
+}
+
+// Carregar itens ao iniciar
 carregarItens();
 </script>
-
 </body>
 </html>
