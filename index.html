@@ -5,18 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lista do Chá de Casa Nova</title>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: #c0c0c0;
   text-align: center;
-  overflow-x: hidden; /* impede rolagem lateral */
+  overflow-x: hidden;
 }
 
 /* Banner */
 .banner {
-  padding: 10px 0; /* controla espaço lateral */
+  padding: 10px 0;
 }
 
 .banner img {
@@ -26,11 +29,11 @@ body {
   border-radius: 12px;
 }
 
-/* Container padrão (PC) */
+/* Container */
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 20px; /* espaço igual entre todos os itens */
+  gap: 20px;
   padding: 40px 20px;
   max-width: 900px;
   margin: 0 auto;
@@ -47,8 +50,7 @@ body {
   align-items: center;
   transition: 0.3s ease;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-
-  justify-self: end; /* joga o item para a direita */
+  justify-self: end;
 }
 
 .item-box:hover {
@@ -85,7 +87,7 @@ button:hover {
   opacity: 0.9;
 }
 
-/* MODAL NOME */
+/* Modal Nome */
 .overlay {
   position: fixed;
   top: 0;
@@ -108,16 +110,15 @@ button:hover {
   animation: aparecer 0.25s ease;
 }
 
-
-
 .confirm-box input {
   width: 100%;
   padding: 10px;
   margin-top: 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  font-size: 16px; /* 👈 MUITO IMPORTANTE */
+  font-size: 16px;
 }
+
 .botoes {
   margin-top: 20px;
   display: flex;
@@ -133,7 +134,7 @@ button:hover {
   background: linear-gradient(45deg, #ff4d6d, #ff758f);
 }
 
-/* POPUP CARICATURA */
+/* Popup Caricatura */
 .caricatura-overlay {
   position: fixed;
   top: 0;
@@ -161,6 +162,7 @@ button:hover {
   max-width: 220px;
   height: auto;
 }
+
 .success-msg {
   margin-top: 15px;
   background: #28a745;
@@ -183,19 +185,21 @@ button:hover {
   }
 
   .container {
-    grid-template-columns: repeat(2, 1fr); /* duas colunas no celular */
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    padding: 20px; /* espaço nas laterais */
+    padding: 20px;
     max-width: 500px;
     margin: 0 auto;
   }
 
   .item-box {
-    padding: 12px;
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
   }
 
   .item-box img {
-    height: 110px; /* imagem menor */
+    height: 110px;
   }
 
   .item-box h3 {
@@ -203,335 +207,21 @@ button:hover {
   }
 
   button {
-    padding: 8px;
-    font-size: 13px;
+    width: 100% !important;
+    padding: 12px !important;
+    font-size: 14px !important;
   }
-
 }
 </style>
 </head>
-
 <body>
-  
 
 <div class="banner">
   <img src="henrique.png" alt="Chá de Casa Nova">
 </div>
 
-<div class="container">
-
-  <div class="item-box">
-    <img src="airfryeer.jpg">
-    <h3>Air Fryer</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="jogodepanela.webp">
-    <h3>Jogo de Panelas</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="batedeira.webp">
-    <h3>Batedeira</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="jogodetaças.webp">
-    <h3>Jogo de Taças</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="jogodetalheres.webp">
-    <h3>Jogo de Talheres</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="jogodecama.webp">
-    <h3>Jogo de Cama</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="toalha.webp">
-    <h3>Toalha</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="cestoderoupa.webp">
-    <h3>Cesto de Roupas</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="panosdeprato.webp">
-    <h3>Pano de Prato</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="cestodelixo.jpg">
-    <h3>Cesto de Lixo</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="afiadordefaca.jpg">
-    <h3>Afiador de Faca</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="aspiradordepo.webp">
-    <h3>Aspirador de Pó</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="Assadeira.webp">
-    <h3>Assadeira</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-  <div class="item-box">
-    <img src="assadeiradevidro.webp">
-    <h3>Assadeira de Vidro</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="boleira.webp">
-    <h3>Boleira</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="cadeiradepraia.webp">
-    <h3>Cadeira de Praia</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="cafeteira.jpg">
-    <h3>Cafeteira</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="chaleirainduçao.jpg">
-    <h3>Chaleira de Indução</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="Colher de silicone.jfif">
-    <h3>Colher de Silicone</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="copomedidor.webp">
-    <h3>Copo Medidor</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="coposvidro.webp">
-    <h3>Jogo de Copos</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="escorredordemacarrao.jpg">
-    <h3>Escorredor de Macarrão</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="escovaparavasosanitario.webp">
-    <h3>Escova para Vaso Sanaitário</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="espetos.webp">
-    <h3>Espetos</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="esteiraportacoposofa.jpg">
-    <h3>Esteira Porta Copos de sofá</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="ferrodepassar.webp">
-    <h3>Ferro de Passar</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="formadepao.jfif">
-    <h3>Forma para Pão</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="formadepudim.webp">
-    <h3>Forma Pudim</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="formaredonda.jpg">
-    <h3>Forma Redonda</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="frigideira.webp">
-    <h3>Frigideira</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
- 
-  <div class="item-box">
-    <img src="fue.webp">
-    <h3>Fue</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="garrafatermica.jpg">
-    <h3>Garrafa Termica</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="jarradevidro.jpg">
-    <h3>Jarra de Vidro</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="Jogo de facas.jfif">
-    <h3>Jogo de Facas</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="jogodesobremesa.png">
-    <h3>Jogo para Sobremesa</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="kit silicone cozinha.webp">
-    <h3>Kit de silicone p/Cozinha</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="kitchicara.webp">
-    <h3>Kit Xicara</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="kitlençol.jpg">
-    <h3>Kit Lençol</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="kitparachurasco.webp">
-    <h3>Kit para Churrasco</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="Microondas.webp">
-    <h3>Microondas</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="mixer.webp">
-    <h3>Mixer</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="Porta talheres.webp">
-    <h3>Porta Talheres</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="portasabonete.webp">
-    <h3>Porta Sabonete</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="potefrios.webp">
-    <h3>Pote para Frios</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="potehermetrico.webp">
-    <h3>Pote Hermetico</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="Pratos.webp">
-    <h3>Jogo de Pratos</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="purificadordeagua.webp">
-    <h3>Purificador de Agua</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="toalhademesa.webp">
-    <h3>Toalha de Mesa</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="toalharosto.webp">
-    <h3>Toalha de Rosto</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="torradeira.webp">
-    <h3>Torradeira/Grill</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="varaldechao.jpg">
-    <h3>Varal de Chão</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-  <div class="item-box">
-    <img src="vasodecorativo.webp">
-    <h3>Vaso Decorativo</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-
-
+<div class="container" id="itemsContainer">
+  <!-- Itens vão ser carregados pelo JS para evitar problemas de mobile -->
 </div>
 
 <!-- Modal Nome -->
@@ -555,22 +245,116 @@ button:hover {
   </div>
 </div>
 
-<!-- SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const supabase = window.supabase.createClient(
   "https://jjudsjfgrtmmorhgqijl.supabase.co",
   "sb_publishable_YWmcJUQoL9OnB-ylEzOy6w_pE5rEMrL"
 );
 
-let botaoSelecionado = null;
-let itemSelecionado = "";
+// Lista de itens
+const itens = [
+  { nome: "Air Fryer", img: "airfryeer.jpg" },
+  { nome: "Jogo de Panelas", img: "jogodepanela.webp" },
+  { nome: "Batedeira", img: "batedeira.webp" },
+  { nome: "Jogo de Taças", img: "jogodetaças.webp" },
+  { nome: "Jogo de Talheres", img: "jogodetalheres.webp" },
+  { nome: "Jogo de Cama", img: "jogodecama.webp" },
+  { nome: "Toalha", img: "toalha.webp" },
+  { nome: "Cesto de Roupas", img: "cestoderoupa.webp" },
+  { nome: "Pano de Prato", img: "panosdeprato.webp" },
+  { nome: "Cesto de Lixo", img: "cestodelixo.jpg" },
+  { nome: "Afiador de Faca", img: "afiadordefaca.jpg" },
+  { nome: "Aspirador de Pó", img: "aspiradordepo.webp" },
+  { nome: "Assadeira", img: "Assadeira.webp" },
+  { nome: "Assadeira de Vidro", img: "assadeiradevidro.webp" },
+  { nome: "Boleira", img: "boleira.webp" },
+  { nome: "Cadeira de Praia", img: "cadeiradepraia.webp" },
+  { nome: "Cafeteira", img: "cafeteira.jpg" },
+  { nome: "Chaleira de Indução", img: "chaleirainduçao.jpg" },
+  { nome: "Colher de Silicone", img: "Colher de silicone.jfif" },
+  { nome: "Copo Medidor", img: "copomedidor.webp" },
+  { nome: "Jogo de Copos", img: "coposvidro.webp" },
+  { nome: "Escorredor de Macarrão", img: "escorredordemacarrao.jpg" },
+  { nome: "Escova para Vaso Sanaitário", img: "escovaparavasosanitario.webp" },
+  { nome: "Espetos", img: "espetos.webp" },
+  { nome: "Esteira Porta Copos de sofá", img: "esteiraportacoposofa.jpg" },
+  { nome: "Ferro de Passar", img: "ferrodepassar.webp" },
+  { nome: "Forma para Pão", img: "formadepao.jfif" },
+  { nome: "Forma Pudim", img: "formadepudim.webp" },
+  { nome: "Forma Redonda", img: "formaredonda.jpg" },
+  { nome: "Frigideira", img: "frigideira.webp" },
+  { nome: "Fue", img: "fue.webp" },
+  { nome: "Garrafa Termica", img: "garrafatermica.jpg" },
+  { nome: "Jarra de Vidro", img: "jarradevidro.jpg" },
+  { nome: "Jogo de Facas", img: "Jogo de facas.jfif" },
+  { nome: "Jogo para Sobremesa", img: "jogodesobremesa.png" },
+  { nome: "Kit de silicone p/Cozinha", img: "kit silicone cozinha.webp" },
+  { nome: "Kit Xicara", img: "kitchicara.webp" },
+  { nome: "Kit Lençol", img: "kitlençol.jpg" },
+  { nome: "Kit para Churrasco", img: "kitparachurasco.webp" },
+  { nome: "Microondas", img: "Microondas.webp" },
+  { nome: "Mixer", img: "mixer.webp" },
+  { nome: "Porta Talheres", img: "Porta talheres.webp" },
+  { nome: "Porta Sabonete", img: "portasabonete.webp" },
+  { nome: "Pote para Frios", img: "potefrios.webp" },
+  { nome: "Pote Hermetico", img: "potehermetrico.webp" },
+  { nome: "Jogo de Pratos", img: "Pratos.webp" },
+  { nome: "Purificador de Agua", img: "purificadordeagua.webp" },
+  { nome: "Toalha de Mesa", img: "toalhademesa.webp" },
+  { nome: "Toalha de Rosto", img: "toalharosto.webp" },
+  { nome: "Torradeira/Grill", img: "torradeira.webp" },
+  { nome: "Varal de Chão", img: "varaldechao.jpg" },
+  { nome: "Vaso Decorativo", img: "vasodecorativo.webp" },
+];
 
-/* Ao clicar em reservar */
-function reservar(botao) {
-  botaoSelecionado = botao;
-  itemSelecionado = botao.parentElement.querySelector("h3").innerText;
-  document.getElementById("confirmOverlay").style.display = "flex";
+// Função para renderizar itens e bloquear os reservados
+let botaoSelecionado = null;
+
+async function carregarItens() {
+  // Pega reservas existentes
+  const { data: reservas, error } = await supabase
+    .from("reservas")
+    .select("item");
+
+  const container = document.getElementById("itemsContainer");
+  container.innerHTML = "";
+
+  itens.forEach(it => {
+    const div = document.createElement("div");
+    div.className = "item-box";
+
+    const img = document.createElement("img");
+    img.src = it.img;
+    div.appendChild(img);
+
+    const h3 = document.createElement("h3");
+    h3.textContent = it.nome;
+    div.appendChild(h3);
+
+    const btn = document.createElement("button");
+    btn.textContent = "Reservar";
+
+    // Verifica se já está reservado
+    if (reservas?.some(r => r.item === it.nome)) {
+      btn.disabled = true;
+      btn.textContent = "Reservado";
+      btn.style.background = "#777";
+      btn.style.cursor = "not-allowed";
+    } else {
+      btn.addEventListener("click", () => reservar(btn, it.nome));
+    }
+
+    div.appendChild(btn);
+    container.appendChild(div);
+  });
+}
+
+// Modal functions
+function reservar(botao, itemNome) {
+  botaoSelecionado = { botao, itemNome };
+  const overlay = document.getElementById("confirmOverlay");
+  overlay.style.display = "flex";
+  overlay.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 function fecharModal() {
@@ -578,66 +362,37 @@ function fecharModal() {
   document.getElementById("nomeInput").value = "";
 }
 
-/* Confirmar reserva e salvar no banco */
 async function confirmarReserva() {
   const nome = document.getElementById("nomeInput").value.trim();
 
-  if (nome === "") {
-    alert("Digite seu nome.");
+  if (!nome) {
+    alert("Por favor, digite seu nome para confirmar.");
     return;
   }
 
+  // Inserir no Supabase
   const { error } = await supabase
     .from("reservas")
-    .insert([{ item: itemSelecionado, nome: nome }]);
+    .insert([{ item: botaoSelecionado.itemNome, nome: nome }]);
 
   if (error) {
-    alert("Este item já foi reservado por outra pessoa!");
-    fecharModal();
+    alert("Erro ao reservar: " + error.message);
     return;
   }
-
-  botaoSelecionado.disabled = true;
-  botaoSelecionado.innerText = "Reservado por " + nome;
-  botaoSelecionado.style.background = "#777";
-  botaoSelecionado.style.cursor = "not-allowed";
 
   fecharModal();
 
+  // Mostrar popup
   const overlay = document.getElementById("caricaturaOverlay");
   overlay.style.display = "flex";
+  setTimeout(() => overlay.style.display = "none", 2000);
 
-  setTimeout(() => {
-    overlay.style.display = "none";
-  }, 2000);
+  // Recarrega itens para bloquear reservados
+  carregarItens();
 }
 
-/* 🔥 Carregar reservas ao abrir o site */
-async function carregarReservas() {
-  const { data } = await supabase
-    .from("reservas")
-    .select("*");
-
-  if (data) {
-    data.forEach(reserva => {
-      const itens = document.querySelectorAll(".item-box");
-
-      itens.forEach(box => {
-        const titulo = box.querySelector("h3").innerText;
-        const botao = box.querySelector("button");
-
-        if (titulo === reserva.item) {
-          botao.disabled = true;
-          botao.innerText = "Reservado por " + reserva.nome;
-          botao.style.background = "#777";
-          botao.style.cursor = "not-allowed";
-        }
-      });
-    });
-  }
-}
-
-carregarReservas();
+// Inicializa
+carregarItens();
 </script>
 
 </body>
