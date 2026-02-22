@@ -593,7 +593,7 @@ button:disabled {
   });
 
   // Marca visualmente o item como reservado
-  function marcarReservado(itemId, nome) {
+  function marcarReservado(itemId) {
     const box = document.querySelector(`.item-box[data-item="${itemId}"]`);
     if (!box) return;
     const btn = box.querySelector("button");
@@ -675,3 +675,4 @@ button:disabled {
 
 </body>
 </html>
+
