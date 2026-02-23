@@ -513,7 +513,7 @@ button:disabled {
   </div>
 
   <div class="item-box" data-item="Toalha de Mesa">
-    <img src="toalhademesa.webp">
+    <img src="toalhamesa.webp">
     <h3>Toalha de Mesa</h3>
     <button onclick="reservar(this)">Reservar</button>
   </div>
@@ -539,16 +539,6 @@ button:disabled {
   <div class="item-box" data-item="Vaso Decorativo">
     <img src="vasodecorativo.webp">
     <h3>Vaso Decorativo</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-   <div class="item-box" data-item="Chaleira Eletrica">
-    <img src="chaleiraeletrica.jpg">
-    <h3>Chaleira Eletrica</h3>
-    <button onclick="reservar(this)">Reservar</button>
-  </div>
-   <div class="item-box" data-item="Liquidificador">
-    <img src="liquitificador.jpg">
-    <h3>Liquidificador</h3>
     <button onclick="reservar(this)">Reservar</button>
   </div>
 
@@ -592,18 +582,8 @@ button:disabled {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Escuta em tempo real todas as reservas
-  const reservasRef = collection(db, "reservas");
-  onSnapshot(reservasRef, (snapshot) => {
-    snapshot.forEach((docSnap) => {
-      const itemId = docSnap.id;
-      const { nome } = docSnap.data();
-      marcarReservado(itemId, nome);
-    });
-  });
-
   // Marca visualmente o item como reservado
-  function marcarReservado(itemId) {
+  function marcarReservado(itemId, nome) {
     const box = document.querySelector(`.item-box[data-item="${itemId}"]`);
     if (!box) return;
     const btn = box.querySelector("button");
@@ -625,7 +605,19 @@ button:disabled {
   window._db = db;
   window._doc = doc;
   window._setDoc = setDoc;
-  window._marcarReservado = marcarReservado;
+
+  // Escuta em tempo real — aguarda tudo carregar
+  window.addEventListener("load", () => {
+    const reservasRef = collection(db, "reservas");
+    onSnapshot(reservasRef, (snapshot) => {
+      snapshot.forEach((docSnap) => {
+        const itemId = docSnap.id;
+        const data = docSnap.data();
+        const nome = (data && data.nome) ? data.nome : "alguém";
+        marcarReservado(itemId, nome);
+      });
+    });
+  });
 </script>
 
 <script>
@@ -685,7 +677,3 @@ button:disabled {
 
 </body>
 </html>
-
-
-
-
