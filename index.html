@@ -541,6 +541,17 @@ button:disabled {
     <h3>Vaso Decorativo</h3>
     <button onclick="reservar(this)">Reservar</button>
   </div>
+   <div class="item-box" data-item="Liquidificador">
+    <img src="liquitificador.jpg">
+    <h3>Liquidificador</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+   <div class="item-box" data-item="Chaleira Eletrica">
+    <img src="chaleiraeletrica.jpg">
+    <h3>Chaleira Eletrica</h3>
+    <button onclick="reservar(this)">Reservar</button>
+  </div>
+  
 
 </div>
 
@@ -592,13 +603,7 @@ button:disabled {
     btn.style.background = "#777";
     btn.style.cursor = "not-allowed";
 
-    // Mostra quem reservou, se ainda não mostrou
-    if (!box.querySelector(".reservado-por")) {
-      const tag = document.createElement("p");
-      tag.className = "reservado-por";
-      tag.innerText = `por ${nome}`;
-      btn.parentNode.insertBefore(tag, btn);
-    }
+   
   }
 
   // Expõe funções pro HTML
@@ -677,3 +682,4 @@ button:disabled {
 
 </body>
 </html>
+
